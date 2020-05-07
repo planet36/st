@@ -1,5 +1,6 @@
 # st version
 VERSION = 0.8.3
+VERSION := $(VERSION)-sdw
 
 # Customize below to fit your system
 
