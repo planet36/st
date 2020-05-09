@@ -1531,13 +1531,20 @@ xdrawcursor(int cx, int cy, Glyph g, int ox, int oy, Glyph og)
 		switch (win.cursor) {
 		case 7: /* st extension: snowman (U+2603) */
 			g.u = 0x2603;
-			/* FALLTHROUGH */
+			xdrawglyph(g, cx, cy);
+			break;
 		case 0: /* Blinking Block */
 		case 1: /* Blinking Block (Default) */
+			if (IS_SET(MODE_BLINK))
+				break;
+			/* FALLTHROUGH */
 		case 2: /* Steady Block */
 			xdrawglyph(g, cx, cy);
 			break;
 		case 3: /* Blinking Underline */
+			if (IS_SET(MODE_BLINK))
+				break;
+			/* FALLTHROUGH */
 		case 4: /* Steady Underline */
 			XftDrawRect(xw.draw, &drawcol,
 					borderpx + cx * win.cw,
@@ -1546,6 +1553,9 @@ xdrawcursor(int cx, int cy, Glyph g, int ox, int oy, Glyph og)
 					win.cw, cursorthickness);
 			break;
 		case 5: /* Blinking bar */
+			if (IS_SET(MODE_BLINK))
+				break;
+			/* FALLTHROUGH */
 		case 6: /* Steady bar */
 			XftDrawRect(xw.draw, &drawcol,
 					borderpx + cx * win.cw,
@@ -1875,6 +1885,8 @@ run(void)
 	int ttyfd;
 	struct timespec drawtimeout, *tv = NULL, now, last, lastblink;
 	long deltatime;
+	int blinkcursor = win.cursor == 0 || win.cursor == 1 ||
+	                  win.cursor == 3 || win.cursor == 5;
 
 	/* Waiting for window mapping */
 	do {
@@ -1911,7 +1923,7 @@ run(void)
 		if (FD_ISSET(ttyfd, &rfd)) {
 			ttyread();
 			if (blinktimeout) {
-				blinkset = tattrset(ATTR_BLINK);
+				blinkset = blinkcursor || tattrset(ATTR_BLINK);
 				if (!blinkset)
 					MODBIT(win.mode, 0, MODE_BLINK);
 			}
