@@ -2015,14 +2015,14 @@ main(int argc, char *argv[])
 	case 'i':
 		xw.isfixed = 1;
 		break;
-	case 'o':
-		opt_io = EARGF(usage());
-		break;
 	case 'l':
 		opt_line = EARGF(usage());
 		break;
 	case 'n':
 		opt_name = EARGF(usage());
+		break;
+	case 'o':
+		opt_io = EARGF(usage());
 		break;
 	case 't':
 	case 'T':
