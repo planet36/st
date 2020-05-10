@@ -138,11 +138,11 @@ static unsigned int defaultrcs = 8;
  * Default style of cursor
  * 0: blinking block
  * 1: blinking block (default)
- * 2: steady block
+ * 2: steady block ("█")
  * 3: blinking underline
- * 4: steady underline
+ * 4: steady underline ("_")
  * 5: blinking bar
- * 6: steady bar
+ * 6: steady bar ("|")
  * 7: Snowman ("☃")
  */
 static unsigned int cursorshape = 1;
@@ -154,7 +154,7 @@ static unsigned int cols = 80;
 static unsigned int rows = 24;
 
 /*
- * Default colour and shape of the mouse cursor
+ * Default color and shape of the mouse cursor
  */
 static unsigned int mouseshape = XC_xterm;
 static unsigned int mousefg = 7;
