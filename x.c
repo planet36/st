@@ -1998,7 +1998,7 @@ main(int argc, char *argv[])
 {
 	xw.l = xw.t = 0;
 	xw.isfixed = False;
-	win.cursor = cursorshape;
+	win.cursor = cursorstyle;
 
 	ARGBEGIN {
 	case 'a':
