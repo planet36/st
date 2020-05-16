@@ -1884,8 +1884,7 @@ run(void)
 	int xfd = XConnectionNumber(xw.dpy), ttyfd, xev, drawing;
 	struct timespec seltv, *tv, now, lastblink, trigger;
 	double timeout;
-	int blinkcursor = win.cursor == 0 || win.cursor == 1 ||
-	                  win.cursor == 3 || win.cursor == 5;
+	int blinkcursor;
 
 	/* Waiting for window mapping */
 	do {
@@ -1952,6 +1951,10 @@ run(void)
 		if (FD_ISSET(ttyfd, &rfd) || xev) {
 			if (!drawing) {
 				trigger = now;
+				if (IS_SET(MODE_BLINK)) {
+					win.mode ^= MODE_BLINK;
+				}
+				lastblink = now;
 				drawing = 1;
 			}
 			timeout = (maxlatency - TIMEDIFF(now, trigger)) \
@@ -1962,6 +1965,8 @@ run(void)
 
 		/* idle detected or maxlatency exhausted -> draw */
 		timeout = -1;
+		blinkcursor = win.cursor == 0 || win.cursor == 1 ||
+		              win.cursor == 3 || win.cursor == 5;
 		if (blinktimeout && (blinkcursor || tattrset(ATTR_BLINK))) {
 			timeout = blinktimeout - TIMEDIFF(now, lastblink);
 			if (timeout <= 0) {
