@@ -61,7 +61,7 @@ static double maxlatency = 33;
  * blinking timeout (set to 0 to disable blinking) for the terminal blinking
  * attribute.
  */
-static unsigned int blinktimeout = 800;
+static unsigned int blinktimeout = 500;
 
 /*
  * thickness of underline and bar cursors
@@ -178,11 +178,12 @@ static uint forcemousemod = ShiftMask;
  * Beware that overloading Button1 will disable the selection.
  */
 static MouseShortcut mshortcuts[] = {
-	/* mask                 button   function        argument       release */
-	{ XK_ANY_MOD,           Button2, selpaste,       {.i = 0},      1 },
-	{ ShiftMask,            Button4, ttysend,        {.s = "\033[5;2~"}, 0 },
-	{ XK_ANY_MOD,           Button5, ttysend,        {.s = "\005"}, 0 },
-	{ ShiftMask,            Button5, ttysend,        {.s = "\033[6;2~"}, 0 },
+	/* mask         button     function    argument              release */
+	{ XK_ANY_MOD,   Button2,   selpaste,   {.i = 0},             1 },
+	{ ShiftMask,    Button4,   ttysend,    {.s = "\033[5;2~"},   0 },
+	{ XK_ANY_MOD,   Button4,   ttysend,    {.s = "\031"},        0 },
+	{ ShiftMask,    Button5,   ttysend,    {.s = "\033[6;2~"},   0 },
+	{ XK_ANY_MOD,   Button5,   ttysend,    {.s = "\005"},        0 },
 };
 
 /* Internal keyboard shortcuts. */
