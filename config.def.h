@@ -9,7 +9,7 @@ static char *font = "Go Mono:size=10:antialias=true:autohint=true";
 
 static int allowitalic = 1;
 static int allowbold = 0;
-static int allowroman = 1;
+static int allowoblique = 1;
 
 static int borderpx = 2;
 
