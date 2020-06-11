@@ -3,13 +3,12 @@
 /*
  * appearance
  *
- * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
+ * font: see https://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
 static char *font = "Go Mono:size=10:antialias=true:autohint=true";
 
+static int allowbold = 1;
 static int allowitalic = 1;
-static int allowbold = 0;
-static int allowoblique = 1;
 
 static int borderpx = 2;
 
@@ -65,7 +64,7 @@ static double maxlatency = 33;
  * blinking timeout (set to 0 to disable blinking) for the terminal blinking
  * attribute.
  */
-static unsigned int blinktimeout = 500;
+static unsigned int blinktimeout = 800;
 
 /*
  * thickness of underline and bar cursors
@@ -127,12 +126,11 @@ static const char *colorname[] = {
 	"#161616",
 };
 
-
 /*
  * Default colors (colorname index)
  * foreground, background, cursor, reverse cursor
  */
-unsigned int defaultfg = 256;
+unsigned int defaultfg = 7;
 unsigned int defaultbg = 257;
 static unsigned int defaultcs = 256;
 static unsigned int defaultrcs = 257;
