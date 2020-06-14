@@ -7,7 +7,7 @@
  */
 static char *font = "Go Mono:size=10:antialias=true:autohint=true";
 
-static int allowbold = 1;
+static int allowbold = 0;
 static int allowitalic = 1;
 
 static int borderpx = 2;
