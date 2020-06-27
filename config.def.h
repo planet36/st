@@ -100,7 +100,7 @@ unsigned int tabspaces = 8;
 /* Terminal colors (16 first used in escape sequence) */
 static const char *colorname[] = {
 	/* 8 normal colors */
-	"#000000",
+	"#161616",
 	"#cc0000",
 	"#4e9a06",
 	"#c4a000",
@@ -122,8 +122,8 @@ static const char *colorname[] = {
 	[255] = 0,
 
 	/* more colors can be added after 255 to use with defaultXX */
-	"#bbbbbb",
-	"#161616",
+	"#cccccc",
+	"#555555",
 };
 
 /*
@@ -131,7 +131,7 @@ static const char *colorname[] = {
  * foreground, background, cursor, reverse cursor
  */
 unsigned int defaultfg = 7;
-unsigned int defaultbg = 257;
+unsigned int defaultbg = 0;
 static unsigned int defaultcs = 256;
 static unsigned int defaultrcs = 257;
 
@@ -149,7 +149,7 @@ static unsigned int defaultrcs = 257;
  * 8: Steady st cursor
  */
 static unsigned int cursorstyle = 1;
-static Rune stcursor = 0x2603; /* snowman (U+2603) */
+static Rune stcursor = 0x2603; /* snowman ("☃") (U+2603) */
 
 /*
  * Default columns and rows numbers
@@ -182,12 +182,12 @@ static uint forcemousemod = ShiftMask;
  * Beware that overloading Button1 will disable the selection.
  */
 static MouseShortcut mshortcuts[] = {
-	/* mask         button     function    argument              release */
-	{ XK_ANY_MOD,   Button2,   selpaste,   {.i = 0},             1 },
-	{ ShiftMask,    Button4,   ttysend,    {.s = "\033[5;2~"},   0 },
-	{ XK_ANY_MOD,   Button4,   ttysend,    {.s = "\031"},        0 },
-	{ ShiftMask,    Button5,   ttysend,    {.s = "\033[6;2~"},   0 },
-	{ XK_ANY_MOD,   Button5,   ttysend,    {.s = "\005"},        0 },
+	/* mask             button   function    argument            release */
+	{ XK_ANY_MOD,       Button2, selpaste,   {.i = 0},           1 },
+	{ ShiftMask,        Button4, ttysend,    {.s = "\033[5;2~"}, 0 },
+	{ XK_ANY_MOD,       Button4, ttysend,    {.s = "\031"},      0 },
+	{ ShiftMask,        Button5, ttysend,    {.s = "\033[6;2~"}, 0 },
+	{ XK_ANY_MOD,       Button5, ttysend,    {.s = "\005"},      0 },
 };
 
 /* Internal keyboard shortcuts. */
