@@ -5,7 +5,7 @@
  *
  * font: see https://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
-static char *font = "Go Mono:size=10:antialias=true:autohint=true";
+static char *font = "monospace:size=10:antialias=true:autohint=true";
 
 static int allowbold = 0;
 static int allowitalic = 1;
