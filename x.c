@@ -16,7 +16,6 @@
 #include <X11/XKBlib.h>
 
 char *argv0;
-#include "arg.h"
 #include "st.h"
 #include "win.h"
 
@@ -2003,55 +2002,65 @@ usage(void)
 int
 main(int argc, char *argv[])
 {
+	int ch;
+
+	argv0 = argv[0];
 	xw.l = xw.t = 0;
 	xw.isfixed = False;
 	xsetcursor(cursorstyle);
 
-	ARGBEGIN {
-	case 'a':
-		allowaltscreen = 0;
-		break;
-	case 'c':
-		opt_class = EARGF(usage());
-		break;
-	case 'e':
-		if (argc > 0)
-			--argc, ++argv;
-		goto run;
-	case 'f':
-		opt_font = EARGF(usage());
-		break;
-	case 'g':
-		xw.gm = XParseGeometry(EARGF(usage()),
-				&xw.l, &xw.t, &cols, &rows);
-		break;
-	case 'i':
-		xw.isfixed = 1;
-		break;
-	case 'l':
-		opt_line = EARGF(usage());
-		break;
-	case 'n':
-		opt_name = EARGF(usage());
-		break;
-	case 'o':
-		opt_io = EARGF(usage());
-		break;
-	case 't':
-	case 'T':
-		opt_title = EARGF(usage());
-		break;
-	case 'w':
-		opt_embed = EARGF(usage());
-		break;
-	case 'v':
-		die("%s " VERSION "\n", argv0);
-		break;
-	default:
-		usage();
-	} ARGEND;
+	const char *optstring = "hac:ef:g:il:n:o:t:T:v";
+
+	while ((ch = getopt(argc, argv, optstring)) != -1) {
+		switch (ch) {
+		case 'a':
+			allowaltscreen = 0;
+			break;
+		case 'c':
+			opt_class = optarg;
+			break;
+		case 'e':
+			goto run;
+			break;
+		case 'f':
+			opt_font = optarg;
+			break;
+		case 'g':
+			xw.gm = XParseGeometry(optarg,
+			        &xw.l, &xw.t, &cols, &rows);
+			break;
+		case 'i':
+			xw.isfixed = 1;
+			break;
+		case 'l':
+			opt_line = optarg;
+			break;
+		case 'n':
+			opt_name = optarg;
+			break;
+		case 'o':
+			opt_io = optarg;
+			break;
+		case 't':
+		case 'T':
+			opt_title = optarg;
+			break;
+		case 'w':
+			opt_embed = optarg;
+			break;
+		case 'v':
+			printf("%s " VERSION "\n", argv0);
+			return 0;
+			break;
+		case 'h':
+		default:
+			usage();
+		}
+	}
 
 run:
+	argc -= optind;
+	argv += optind;
 	if (argc > 0) /* eat all remaining arguments */
 		opt_cmd = argv;
 
