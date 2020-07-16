@@ -1121,7 +1121,7 @@ xinit(int cols, int rows)
 	if (!FcInit())
 		die("could not init fontconfig.\n");
 
-	usedfont = (opt_font == NULL)? font : opt_font;
+	usedfont = (opt_font == NULL) ? font : opt_font;
 	xloadfonts(usedfont, 0);
 
 	/* colors */
@@ -1624,18 +1624,18 @@ void
 xdrawline(Line line, int x1, int y1, int x2)
 {
 	int i, x, ox, numspecs;
-	Glyph base, new;
+	Glyph base, newbase;
 	XftGlyphFontSpec *specs = xw.specbuf;
 
 	numspecs = xmakeglyphfontspecs(specs, &line[x1], x2 - x1, x1, y1);
 	i = ox = 0;
 	for (x = x1; x < x2 && i < numspecs; x++) {
-		new = line[x];
-		if (new.mode == ATTR_WDUMMY)
+		newbase = line[x];
+		if (newbase.mode == ATTR_WDUMMY)
 			continue;
 		if (selected(x, y1))
-			new.mode ^= ATTR_REVERSE;
-		if (i > 0 && ATTRCMP(base, new)) {
+			newbase.mode ^= ATTR_REVERSE;
+		if (i > 0 && ATTRCMP(base, newbase)) {
 			xdrawglyphfontspecs(specs, base, i, ox, y1);
 			specs += i;
 			numspecs -= i;
@@ -1643,7 +1643,7 @@ xdrawline(Line line, int x1, int y1, int x2)
 		}
 		if (i == 0) {
 			ox = x;
-			base = new;
+			base = newbase;
 		}
 		i++;
 	}
