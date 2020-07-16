@@ -914,8 +914,8 @@ ttywriteraw(const char *s, size_t n)
 			 * default of 256. This seems to be a reasonable value
 			 * for a serial line. Bigger values might clog the I/O.
 			 */
-			if ((r = write(cmdfd, s, (n < lim)? n : lim)) < 0)
-				goto write_error;
+			if ((r = write(cmdfd, s, (n < lim) ? n : lim)) < 0)
+				die("write error on tty: %s\n", strerror(errno));
 			if (r < n) {
 				/*
 				 * We weren't able to write out everything.
@@ -934,10 +934,6 @@ ttywriteraw(const char *s, size_t n)
 		if (FD_ISSET(cmdfd, &rfd))
 			lim = ttyread();
 	}
-	return;
-
-write_error:
-	die("write error on tty: %s\n", strerror(errno));
 }
 
 void
