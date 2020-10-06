@@ -967,7 +967,7 @@ xloadfonts(char *fontstr, double fontsize)
 	if (fontsize > 1) {
 		FcPatternDel(pattern, FC_PIXEL_SIZE);
 		FcPatternDel(pattern, FC_SIZE);
-		FcPatternAddDouble(pattern, FC_PIXEL_SIZE, (double)fontsize);
+		FcPatternAddDouble(pattern, FC_PIXEL_SIZE, fontsize);
 		usedfontsize = fontsize;
 	} else {
 		if (FcPatternGetDouble(pattern, FC_PIXEL_SIZE, 0, &fontval) ==
@@ -1531,6 +1531,7 @@ xdrawcursor(int cx, int cy, Glyph g, int ox, int oy, Glyph og)
 	/* draw the new one */
 	if (IS_SET(MODE_FOCUSED)) {
 		switch (win.cursor) {
+		default:
 		case 0: /* blinking block */
 		case 1: /* blinking block (default) */
 			if (IS_SET(MODE_BLINK))
