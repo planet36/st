@@ -15,7 +15,6 @@
 #include <X11/Xft/Xft.h>
 #include <X11/XKBlib.h>
 
-char *argv0;
 #include "st.h"
 #include "win.h"
 
@@ -241,6 +240,8 @@ static int frccap = 0;
 static char *usedfont = NULL;
 static double usedfontsize = 0;
 static double defaultfontsize = 0;
+
+static char *argv0;
 
 static char *opt_class = NULL;
 static char **opt_cmd  = NULL;
@@ -1002,29 +1003,21 @@ xloadfonts(char *fontstr, double fontsize)
 	win.ch = ceilf(dc.font.height * chscale);
 
 	FcPatternDel(pattern, FC_SLANT);
-	FcPatternAddInteger(pattern, FC_SLANT, FC_SLANT_ROMAN);
-
-	FcPatternDel(pattern, FC_WEIGHT);
-	FcPatternAddInteger(pattern, FC_WEIGHT, FC_WEIGHT_NORMAL);
-
 	if (allowitalic) {
-		FcPatternDel(pattern, FC_SLANT);
 		FcPatternAddInteger(pattern, FC_SLANT, FC_SLANT_ITALIC);
 	}
 	if (xloadfont(&dc.ifont, pattern))
 		die("can't open font %s\n", fontstr);
 
+	FcPatternDel(pattern, FC_WEIGHT);
 	if (allowbold) {
-		FcPatternDel(pattern, FC_WEIGHT);
 		FcPatternAddInteger(pattern, FC_WEIGHT, FC_WEIGHT_BOLD);
 	}
 	if (xloadfont(&dc.ibfont, pattern))
 		die("can't open font %s\n", fontstr);
 
-	if (allowitalic) {
-		FcPatternDel(pattern, FC_SLANT);
-		FcPatternAddInteger(pattern, FC_SLANT, FC_SLANT_ROMAN);
-	}
+	FcPatternDel(pattern, FC_SLANT);
+	FcPatternAddInteger(pattern, FC_SLANT, FC_SLANT_ROMAN);
 	if (xloadfont(&dc.bfont, pattern))
 		die("can't open font %s\n", fontstr);
 
@@ -1538,40 +1531,40 @@ xdrawcursor(int cx, int cy, Glyph g, int ox, int oy, Glyph og)
 	/* draw the new one */
 	if (IS_SET(MODE_FOCUSED)) {
 		switch (win.cursor) {
-		case 0: /* Blinking block */
-		case 1: /* Blinking block (default) */
+		case 0: /* blinking block */
+		case 1: /* blinking block (default) */
 			if (IS_SET(MODE_BLINK))
 				break;
 			/* FALLTHROUGH */
-		case 2: /* Steady block */
+		case 2: /* steady block */
 			xdrawglyph(g, cx, cy);
 			break;
-		case 3: /* Blinking underline */
+		case 3: /* blinking underline */
 			if (IS_SET(MODE_BLINK))
 				break;
 			/* FALLTHROUGH */
-		case 4: /* Steady underline */
+		case 4: /* steady underline */
 			XftDrawRect(xw.draw, &drawcol,
 					borderpx + cx * win.cw,
 					borderpx + (cy + 1) * win.ch - \
 						cursorthickness,
 					win.cw, cursorthickness);
 			break;
-		case 5: /* Blinking bar */
+		case 5: /* blinking bar */
 			if (IS_SET(MODE_BLINK))
 				break;
 			/* FALLTHROUGH */
-		case 6: /* Steady bar */
+		case 6: /* steady bar */
 			XftDrawRect(xw.draw, &drawcol,
 					borderpx + cx * win.cw,
 					borderpx + cy * win.ch,
 					cursorthickness, win.ch);
 			break;
-		case 7: /* Blinking st cursor */
+		case 7: /* blinking st cursor */
 			if (IS_SET(MODE_BLINK))
 				break;
 			/* FALLTHROUGH */
-		case 8: /* Steady st cursor */
+		case 8: /* steady st cursor */
 			g.u = stcursor;
 			xdrawglyph(g, cx, cy);
 			break;
@@ -2014,13 +2007,12 @@ int
 main(int argc, char *argv[])
 {
 	int ch;
+	const char *optstring = "ac:ef:g:hil:n:o:T:t:v";
 
 	argv0 = argv[0];
 	xw.l = xw.t = 0;
 	xw.isfixed = False;
 	xsetcursor(cursorstyle);
-
-	const char *optstring = "hac:ef:g:il:n:o:t:T:v";
 
 	while ((ch = getopt(argc, argv, optstring)) != -1) {
 		switch (ch) {
@@ -2040,6 +2032,10 @@ main(int argc, char *argv[])
 			xw.gm = XParseGeometry(optarg,
 			        &xw.l, &xw.t, &cols, &rows);
 			break;
+		case 'h':
+		default:
+			usage();
+			break;
 		case 'i':
 			xw.isfixed = 1;
 			break;
@@ -2052,8 +2048,8 @@ main(int argc, char *argv[])
 		case 'o':
 			opt_io = optarg;
 			break;
-		case 't':
 		case 'T':
+		case 't':
 			opt_title = optarg;
 			break;
 		case 'w':
@@ -2063,9 +2059,6 @@ main(int argc, char *argv[])
 			printf("%s " VERSION "\n", argv0);
 			return 0;
 			break;
-		case 'h':
-		default:
-			usage();
 		}
 	}
 
