@@ -1993,7 +1993,7 @@ run(void)
 void
 usage(void)
 {
-	die("usage: %s [-aiv] [-c class] [-f font] [-g geometry]"
+	printf("usage: %s [-aiv] [-c class] [-f font] [-g geometry]"
 	    " [-n name] [-o file]\n"
 	    "          [-T title] [-t title] [-w windowid]"
 	    " [[-e] command [args ...]]\n"
@@ -2033,8 +2033,8 @@ main(int argc, char *argv[])
 			        &xw.l, &xw.t, &cols, &rows);
 			break;
 		case 'h':
-		default:
 			usage();
+			return 0;
 			break;
 		case 'i':
 			xw.isfixed = 1;
@@ -2058,6 +2058,10 @@ main(int argc, char *argv[])
 		case 'v':
 			printf("%s " VERSION "\n", argv0);
 			return 0;
+			break;
+		default:
+			usage();
+			return 1;
 			break;
 		}
 	}
