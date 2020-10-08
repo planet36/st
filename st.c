@@ -848,8 +848,9 @@ ttyread(void)
 		/* keep any incomplete UTF-8 byte sequence for the next call */
 		if (buflen > 0)
 			memmove(buf, buf + written, buflen);
-		return ret;
+		break;
 	}
+	return ret;
 }
 
 void
