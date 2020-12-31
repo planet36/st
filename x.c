@@ -121,8 +121,6 @@ typedef struct {
 	int width;
 	int ascent;
 	int descent;
-	int badslant;
-	int badweight;
 	short lbearing;
 	short rbearing;
 	XftFont *match;
@@ -884,7 +882,6 @@ xloadfont(Font *f, FcPattern *pattern)
 	FcPattern *match;
 	FcResult result;
 	XGlyphInfo extents;
-	int wantattr, haveattr;
 
 	/*
 	 * Manually configure instead of calling XftMatchFont
@@ -908,28 +905,6 @@ xloadfont(Font *f, FcPattern *pattern)
 		FcPatternDestroy(configured);
 		FcPatternDestroy(match);
 		return 1;
-	}
-
-	if ((XftPatternGetInteger(pattern, "slant", 0, &wantattr) ==
-	    XftResultMatch)) {
-		/*
-		 * Check if xft was unable to find a font with the appropriate
-		 * slant but gave us one anyway. Try to mitigate.
-		 */
-		if ((XftPatternGetInteger(f->match->pattern, "slant", 0,
-		    &haveattr) != XftResultMatch) || haveattr < wantattr) {
-			f->badslant = 1;
-			fputs("font slant does not match\n", stderr);
-		}
-	}
-
-	if ((XftPatternGetInteger(pattern, "weight", 0, &wantattr) ==
-	    XftResultMatch)) {
-		if ((XftPatternGetInteger(f->match->pattern, "weight", 0,
-		    &haveattr) != XftResultMatch) || haveattr != wantattr) {
-			f->badweight = 1;
-			fputs("font weight does not match\n", stderr);
-		}
 	}
 
 	XftTextExtentsUtf8(xw.dpy, f->match,
@@ -1355,15 +1330,6 @@ xdrawglyphfontspecs(const XftGlyphFontSpec *specs, Glyph base, int len, int x, i
 	XRenderColor colfg, colbg;
 	XRectangle r;
 
-	/* Fallback on color display for attributes not supported by the font */
-	if (base.mode & ATTR_ITALIC && base.mode & ATTR_BOLD) {
-		if (dc.ibfont.badslant || dc.ibfont.badweight)
-			base.fg = defaultattr;
-	} else if ((base.mode & ATTR_ITALIC && dc.ifont.badslant) ||
-	    (base.mode & ATTR_BOLD && dc.bfont.badweight)) {
-		base.fg = defaultattr;
-	}
-
 	if (IS_TRUECOL(base.fg)) {
 		colfg.alpha = 0xffff;
 		colfg.red = TRUERED(base.fg);
@@ -1594,7 +1560,7 @@ xdrawcursor(int cx, int cy, Glyph g, int ox, int oy, Glyph og)
 void
 xsetenv(void)
 {
-	char buf[sizeof(long) * 8 + 1];
+	char buf[sizeof(long) * CHAR_BIT + 1];
 
 	snprintf(buf, sizeof(buf), "%lu", xw.win);
 	setenv("WINDOWID", buf, 1);
