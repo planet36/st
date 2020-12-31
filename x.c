@@ -1560,7 +1560,7 @@ xdrawcursor(int cx, int cy, Glyph g, int ox, int oy, Glyph og)
 void
 xsetenv(void)
 {
-	char buf[sizeof(long) * CHAR_BIT + 1];
+	char buf[sizeof(long) * 8 + 1];
 
 	snprintf(buf, sizeof(buf), "%lu", xw.win);
 	setenv("WINDOWID", buf, 1);
@@ -1840,7 +1840,7 @@ cmessage(XEvent *e)
 {
 	/*
 	 * See xembed specs
-	 *  http://standards.freedesktop.org/xembed-spec/xembed-spec-latest.html
+	 *  https://specifications.freedesktop.org/xembed-spec/xembed-spec-latest.html
 	 */
 	if (e->xclient.message_type == xw.xembed && e->xclient.format == 32) {
 		if (e->xclient.data.l[1] == XEMBED_FOCUS_IN) {

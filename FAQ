@@ -99,7 +99,7 @@ in TERM.
 ## I cannot compile st in OpenBSD
 
 OpenBSD lacks librt, despite it being mandatory in POSIX
-<http://pubs.opengroup.org/onlinepubs/9699919799/utilities/c99.html#tag_20_11_13>.
+<https://pubs.opengroup.org/onlinepubs/9699919799/utilities/c99.html#tag_20_11_13>.
 If you want to compile st for OpenBSD you have to remove -lrt from config.mk, and
 st will compile without any loss of functionality, because all the functions are
 included in libc on this platform.
@@ -163,15 +163,15 @@ terminal users wants its backspace to be how he feels it:
 	connects to my Unix machines from a different system with a
 	correct backspace key.
 
-	[1] http://www.ibb.net/~anne/keyboard.html
-	[2] http://www.tldp.org/HOWTO/Keyboard-and-Console-HOWTO-5.html
+	[1] https://web.archive.org/web/20181022000151/http://ibb.net:80/~anne/keyboard.html
+	[2] https://tldp.org/HOWTO/Keyboard-and-Console-HOWTO-5.html
 
 
 ## But I really want the old grumpy behaviour of my terminal
 
 Apply [1].
 
-[1] https://st.suckless.org/patches/delkey
+[1] https://st.suckless.org/patches/delkey/
 
 
 ## Why do images not work in st using the w3m image hack?
@@ -235,7 +235,7 @@ This is a known bug in Xft (not st) which happens on some platforms and
 combination of particular fonts and fontconfig settings.
 
 See also:
-https://gitlab.freedesktop.org/xorg/lib/libxft/issues/6
+https://gitlab.freedesktop.org/xorg/lib/libxft/-/issues/6
 https://bugs.freedesktop.org/show_bug.cgi?id=107534
 https://bugzilla.redhat.com/show_bug.cgi?id=1498269
 
