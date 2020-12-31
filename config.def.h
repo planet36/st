@@ -7,7 +7,7 @@
  */
 static char *font = "monospace:size=10:antialias=true:autohint=true";
 
-static int allowbold = 0;
+static int allowbold = 1;
 static int allowitalic = 1;
 
 static int borderpx = 2;
@@ -149,7 +149,7 @@ static unsigned int defaultrcs = 257;
  * 8: steady st cursor
  */
 static unsigned int cursorstyle = 1;
-static Rune stcursor = 0x2603; /* snowman ("☃") (U+2603) */
+static Rune stcursor = 0x2603; /* snowman ("☃") */
 
 /*
  * Default columns and rows numbers
