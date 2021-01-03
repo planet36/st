@@ -183,7 +183,6 @@ static char *kmap(KeySym, uint);
 static int match(uint, uint);
 
 static void run(void);
-static void usage(void);
 
 static void (*handler[LASTEvent])(XEvent *) = {
 	[KeyPress] = kpress,
@@ -238,8 +237,6 @@ static int frccap = 0;
 static char *usedfont = NULL;
 static double usedfontsize = 0;
 static double defaultfontsize = 0;
-
-static char *argv0;
 
 static char *opt_class = NULL;
 static char **opt_cmd  = NULL;
@@ -1975,7 +1972,7 @@ run(void)
 }
 
 void
-usage(void)
+usage(const char *argv0)
 {
 	printf("usage: %s [-aiv] [-c class] [-f font] [-g geometry]"
 	    " [-n name] [-o file]\n"
@@ -1993,7 +1990,6 @@ main(int argc, char *argv[])
 	int ch;
 	const char *optstring = "ac:ef:g:hil:n:o:T:t:v";
 
-	argv0 = argv[0];
 	xw.l = xw.t = 0;
 	xw.isfixed = False;
 	xsetcursor(cursorstyle);
@@ -2017,7 +2013,7 @@ main(int argc, char *argv[])
 			        &xw.l, &xw.t, &cols, &rows);
 			break;
 		case 'h':
-			usage();
+			usage(argv[0]);
 			return 0;
 			break;
 		case 'i':
@@ -2040,11 +2036,11 @@ main(int argc, char *argv[])
 			opt_embed = optarg;
 			break;
 		case 'v':
-			printf("%s " VERSION "\n", argv0);
+			printf("%s " VERSION "\n", argv[0]);
 			return 0;
 			break;
 		default:
-			usage();
+			usage(argv[0]);
 			return 1;
 			break;
 		}
