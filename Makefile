@@ -4,6 +4,7 @@
 
 include config.mk
 
+HDR = config.h st.h win.h
 SRC = st.c x.c
 OBJ = $(SRC:.c=.o)
 
@@ -21,10 +22,7 @@ config.h:
 .c.o:
 	$(CC) $(STCFLAGS) -c $<
 
-st.o: config.h st.h win.h
-x.o: config.h st.h win.h
-
-$(OBJ): config.h config.mk
+$(OBJ): config.mk $(HDR)
 
 st: $(OBJ)
 	$(CC) -o $@ $(OBJ) $(STLDFLAGS)
@@ -33,12 +31,7 @@ clean:
 	rm -f st $(OBJ) st-$(VERSION).tar.gz
 
 dist: clean
-	mkdir -p st-$(VERSION)
-	cp -R FAQ LEGACY TODO LICENSE Makefile README config.mk\
-		config.def.h st.info st.1 st.h win.h $(SRC)\
-		st-$(VERSION)
-	tar -cf - st-$(VERSION) | gzip > st-$(VERSION).tar.gz
-	rm -rf st-$(VERSION)
+	git archive --prefix st-$(VERSION)/ HEAD | gzip > st-$(VERSION).tar.gz
 
 install: st
 	mkdir -p $(DESTDIR)$(PREFIX)/bin
