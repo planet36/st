@@ -183,6 +183,7 @@ static char *kmap(KeySym, uint);
 static int match(uint, uint);
 
 static void run(void);
+static void usage(const char *);
 
 static void (*handler[LASTEvent])(XEvent *) = {
 	[KeyPress] = kpress,
