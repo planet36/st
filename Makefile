@@ -17,7 +17,7 @@ options:
 	@echo "CC      = $(CC)"
 
 config.h:
-	cp config.def.h config.h
+	cp config.def.h $@
 
 .c.o:
 	$(CC) $(STCFLAGS) -c $<
@@ -44,7 +44,7 @@ install: st
 	@echo Please see the README file regarding the terminfo entry of st.
 
 uninstall:
-	rm -f $(DESTDIR)$(PREFIX)/bin/st
-	rm -f $(DESTDIR)$(MANPREFIX)/man1/st.1
+	rm -f $(DESTDIR)$(PREFIX)/bin/st \
+		$(DESTDIR)$(MANPREFIX)/man1/st.1
 
 .PHONY: all options clean dist install uninstall
