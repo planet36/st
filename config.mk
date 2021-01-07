@@ -23,16 +23,15 @@ LIBS = -L$(X11LIB) -lm -lrt -lX11 -lutil -lXft \
 
 # flags
 CFLAGS += \
-		  -Wno-float-equal \
-		  -Wno-shadow \
-		  -Wno-sign-compare \
-		  -Wno-switch-default \
-		  -Wno-type-limits \
-		  -Wno-unused-parameter \
-		  -Os
-
-STCPPFLAGS = -DVERSION=\"$(VERSION)\" -D_XOPEN_SOURCE=600
-STCFLAGS = $(INCS) $(STCPPFLAGS) $(CPPFLAGS) $(CFLAGS)
+		-Wno-float-equal \
+		-Wno-shadow \
+		-Wno-sign-compare \
+		-Wno-switch-default \
+		-Wno-type-limits \
+		-Wno-unused-parameter \
+		-Os
+STCPPFLAGS = -DVERSION=\"$(VERSION)\" -D_XOPEN_SOURCE=600 $(CPPFLAGS)
+STCFLAGS = $(INCS) $(STCPPFLAGS) $(CFLAGS)
 STLDFLAGS = $(LIBS) $(LDFLAGS)
 
 # OpenBSD:
