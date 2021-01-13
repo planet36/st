@@ -1,10 +1,8 @@
 # st - simple terminal
 # See LICENSE file for copyright and license details.
-.POSIX:
 
 include config.mk
 
-HDR = config.h st.h win.h
 SRC = st.c x.c
 OBJ = $(SRC:.c=.o)
 
@@ -17,18 +15,18 @@ options:
 	@echo "CC      = $(CC)"
 
 config.h:
-	cp config.def.h $@
+	cp config.def.h config.h
 
 .c.o:
 	$(CC) $(CFLAGS) -c $<
 
-$(OBJ): config.mk $(HDR)
+$(OBJ): config.h config.mk st.h win.h
 
 st: $(OBJ)
-	$(CC) -o $@ $(OBJ) $(LDFLAGS)
+	$(CC) $^ -o $@ $(LDFLAGS)
 
 clean:
-	rm -f st $(OBJ) st-$(VERSION).tar.gz
+	rm -f st *.o st-$(VERSION).tar.gz
 
 dist: clean
 	git archive --prefix st-$(VERSION)/ HEAD | gzip > st-$(VERSION).tar.gz
