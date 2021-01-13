@@ -12,20 +12,20 @@ all: options st
 
 options:
 	@echo st build options:
-	@echo "CFLAGS  = $(STCFLAGS)"
-	@echo "LDFLAGS = $(STLDFLAGS)"
+	@echo "CFLAGS  = $(CFLAGS)"
+	@echo "LDFLAGS = $(LDFLAGS)"
 	@echo "CC      = $(CC)"
 
 config.h:
 	cp config.def.h $@
 
 .c.o:
-	$(CC) $(STCFLAGS) -c $<
+	$(CC) $(CFLAGS) -c $<
 
 $(OBJ): config.mk $(HDR)
 
 st: $(OBJ)
-	$(CC) -o $@ $(OBJ) $(STLDFLAGS)
+	$(CC) -o $@ $(OBJ) $(LDFLAGS)
 
 clean:
 	rm -f st $(OBJ) st-$(VERSION).tar.gz
