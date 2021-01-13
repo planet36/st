@@ -3,7 +3,8 @@
 
 include config.mk
 
-SRC = st.c x.c
+HDR = $(filter-out config.def.h, config.h $(wildcard *.h))
+SRC = $(wildcard *.c)
 OBJ = $(SRC:.c=.o)
 
 all: options st
@@ -20,7 +21,7 @@ config.h:
 .c.o:
 	$(CC) $(CFLAGS) -c $<
 
-$(OBJ): config.h config.mk st.h win.h
+$(OBJ): config.mk $(HDR)
 
 st: $(OBJ)
 	$(CC) $^ -o $@ $(LDFLAGS)
