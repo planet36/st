@@ -15,14 +15,13 @@ LIBS = -lutil \
        `pkg-config --libs fontconfig freetype2 x11 xft`
 
 # flags
+CPPFLAGS += -DVERSION=\"$(VERSION)\" -D_XOPEN_SOURCE=600
 CFLAGS += \
 		-Wno-float-equal \
 		-Wno-shadow \
 		-Wno-sign-compare \
 		-Wno-switch-default \
 		-Wno-type-limits \
-		-Wno-unused-parameter \
-		-Os
-CPPFLAGS += -DVERSION=\"$(VERSION)\" -D_XOPEN_SOURCE=600
-CFLAGS += $(INCS) $(CPPFLAGS)
+		-Wno-unused-parameter
+CFLAGS += -Os $(INCS) $(CPPFLAGS)
 LDFLAGS += $(LIBS)
