@@ -3,9 +3,9 @@
 
 include config.mk
 
-HDR = $(filter-out config.def.h, config.h $(wildcard *.h))
-SRC = $(wildcard *.c)
-OBJ = $(SRC:.c=.o)
+HDRS = $(filter-out config.def.h, config.h $(wildcard *.h))
+SRCS = $(wildcard *.c)
+OBJS = $(SRCS:.c=.o)
 
 all: options st
 
@@ -18,12 +18,12 @@ options:
 config.h:
 	cp config.def.h config.h
 
-.c.o:
+%.o: %.c
 	$(CC) $(CFLAGS) -c $<
 
-$(OBJ): config.mk $(HDR)
+$(OBJS): config.mk $(HDRS)
 
-st: $(OBJ)
+st: $(OBJS)
 	$(CC) $^ -o $@ $(LDFLAGS)
 
 clean:
