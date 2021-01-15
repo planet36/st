@@ -1554,10 +1554,10 @@ xdrawcursor(int cx, int cy, Glyph g, int ox, int oy, Glyph og)
 void
 xsetenv(void)
 {
-	// ulong digits10 == ceil(CHAR_BIT*sizeof(long)*log10(2))
-	// log10(2) == 0.30103...
-	// 5/16 == 0.3125
-	char buf[(CHAR_BIT*sizeof(long)*5)/16 + 1] = {'\0'};
+	// ulong digits10 == ceil(sizeof(long)*CHAR_BIT*log10(2))
+	// log10(2) == 0.30103... ; 5/16 == 0.3125
+	// 8*5/16 == 5/2
+	char buf[(sizeof(long)*5)/2 + 1] = {'\0'};
 
 	snprintf(buf, sizeof(buf), "%lu", xw.win);
 	setenv("WINDOWID", buf, 1);
