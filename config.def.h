@@ -6,10 +6,6 @@
  * font: see https://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
 static char *font = "monospace:size=10:antialias=true:autohint=true";
-
-static int allowbold = 1;
-static int allowitalic = 1;
-
 static int borderpx = 2;
 
 /*
