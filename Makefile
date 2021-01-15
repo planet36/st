@@ -30,7 +30,7 @@ clean:
 	rm -f st *.o st-$(VERSION).tar.gz
 
 dist:
-	git archive --prefix st-$(VERSION)/ HEAD | gzip > st-$(VERSION).tar.gz
+	git archive --prefix st-$(VERSION)/ HEAD | xz > st-$(VERSION).tar.xz
 
 install: st
 	mkdir -p $(DESTDIR)$(PREFIX)/bin
