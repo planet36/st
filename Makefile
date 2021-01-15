@@ -29,7 +29,7 @@ st: $(OBJS)
 clean:
 	rm -f st *.o st-$(VERSION).tar.gz
 
-dist: clean
+dist:
 	git archive --prefix st-$(VERSION)/ HEAD | gzip > st-$(VERSION).tar.gz
 
 install: st
