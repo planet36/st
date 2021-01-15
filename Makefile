@@ -27,7 +27,7 @@ st: $(OBJS)
 	$(CC) $^ -o $@ $(LDFLAGS)
 
 clean:
-	rm -f st *.o st-$(VERSION).tar.gz
+	rm -f st *.o st-$(VERSION).tar.xz
 
 dist:
 	git archive --prefix st-$(VERSION)/ HEAD | xz > st-$(VERSION).tar.xz
