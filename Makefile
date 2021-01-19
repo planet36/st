@@ -3,47 +3,49 @@
 
 include config.mk
 
-HDRS = $(filter-out config.def.h, config.h $(wildcard *.h))
 SRCS = $(wildcard *.c)
+DEPS = $(SRCS:.c=.d)
 OBJS = $(SRCS:.c=.o)
 
-all: options st
+BIN = st
 
-options:
-	@echo st build options:
-	@echo "CFLAGS  = $(CFLAGS)"
-	@echo "LDFLAGS = $(LDFLAGS)"
-	@echo "CC      = $(CC)"
+$(BIN): $(OBJS)
+	$(CC) $^ -o $@ $(LDFLAGS)
+
+%.o: %.c
+	$(CC) $(DEPFLAGS) $(CFLAGS) -c $<
+
+$(OBJS): config.h config.mk
 
 config.h:
 	cp config.def.h config.h
 
-%.o: %.c
-	$(CC) $(CFLAGS) -c $<
-
-$(OBJS): config.mk $(HDRS)
-
-st: $(OBJS)
-	$(CC) $^ -o $@ $(LDFLAGS)
+options:
+	@echo $(BIN) build options:
+	@echo "CFLAGS  = $(CFLAGS)"
+	@echo "LDFLAGS = $(LDFLAGS)"
+	@echo "CC      = $(CC)"
 
 clean:
-	rm -f st *.o st-$(VERSION).tar.xz
+	@$(RM) --verbose -- $(BIN) $(OBJS) $(DEPS) $(BIN)-$(VERSION).tar.xz
 
 dist:
-	git archive --prefix st-$(VERSION)/ HEAD | xz > st-$(VERSION).tar.xz
+	git archive --prefix $(BIN)-$(VERSION)/ HEAD | xz > $(BIN)-$(VERSION).tar.xz
 
-install: st
+install: $(BIN)
 	mkdir -p $(DESTDIR)$(PREFIX)/bin
-	cp -f st $(DESTDIR)$(PREFIX)/bin
-	chmod 755 $(DESTDIR)$(PREFIX)/bin/st
+	cp -f $(BIN) $(DESTDIR)$(PREFIX)/bin
+	chmod 755 $(DESTDIR)$(PREFIX)/bin/$(BIN)
 	mkdir -p $(DESTDIR)$(MANPREFIX)/man1
-	sed "s/VERSION/$(VERSION)/g" < st.1 > $(DESTDIR)$(MANPREFIX)/man1/st.1
-	chmod 644 $(DESTDIR)$(MANPREFIX)/man1/st.1
-	tic -sx st.info
-	@echo Please see the README file regarding the terminfo entry of st.
+	sed "s/VERSION/$(VERSION)/g" < $(BIN).1 > $(DESTDIR)$(MANPREFIX)/man1/$(BIN).1
+	chmod 644 $(DESTDIR)$(MANPREFIX)/man1/$(BIN).1
+	tic -sx $(BIN).info
+	@echo Please see the README file regarding the terminfo entry of $(BIN).
 
 uninstall:
-	rm -f $(DESTDIR)$(PREFIX)/bin/st \
-		$(DESTDIR)$(MANPREFIX)/man1/st.1
+	rm -f $(DESTDIR)$(PREFIX)/bin/$(BIN) \
+		$(DESTDIR)$(MANPREFIX)/man1/$(BIN).1
 
-.PHONY: all options clean dist install uninstall
+.PHONY: options clean dist install uninstall
+
+-include $(DEPS)
