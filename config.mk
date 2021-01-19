@@ -16,6 +16,7 @@ LIBS = -lutil \
 
 # flags
 CPPFLAGS += -DVERSION=\"$(VERSION)\" -D_XOPEN_SOURCE=600
+DEPFLAGS += -MMD -MP
 CFLAGS += \
 		-Wno-float-equal \
 		-Wno-shadow \
@@ -23,6 +24,5 @@ CFLAGS += \
 		-Wno-switch-default \
 		-Wno-type-limits \
 		-Wno-unused-parameter
-CFLAGS += -Os $(INCS) $(CPPFLAGS)
-DEPFLAGS += -MMD -MP
+CFLAGS += -Os $(INCS) $(CPPFLAGS) $(DEPFLAGS)
 LDFLAGS += $(LIBS)
