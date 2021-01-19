@@ -24,4 +24,5 @@ CFLAGS += \
 		-Wno-type-limits \
 		-Wno-unused-parameter
 CFLAGS += -Os $(INCS) $(CPPFLAGS)
+DEPFLAGS += -MMD -MP
 LDFLAGS += $(LIBS)
