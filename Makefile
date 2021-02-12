@@ -15,7 +15,7 @@ $(BIN): $(OBJS)
 %.o: %.c
 	$(CC) $(CFLAGS) -c $<
 
-$(OBJS): config.mk
+$(OBJS): config.h config.mk
 
 config.h:
 	cp config.def.h config.h
