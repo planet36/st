@@ -17,12 +17,12 @@ LIBS = -lutil \
 # flags
 CPPFLAGS += -DVERSION=\"$(VERSION)\" -D_XOPEN_SOURCE=600
 DEPFLAGS += -MMD -MP
-CFLAGS += \
+CFLAGS += -O2 \
 		-Wno-float-equal \
 		-Wno-shadow \
 		-Wno-sign-compare \
 		-Wno-switch-default \
 		-Wno-type-limits \
 		-Wno-unused-parameter
-CFLAGS += -Os $(INCS) $(CPPFLAGS) $(DEPFLAGS)
+CFLAGS += $(INCS) $(CPPFLAGS) $(DEPFLAGS)
 LDFLAGS += $(LIBS)
