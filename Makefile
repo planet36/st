@@ -43,7 +43,7 @@ install: $(BIN)
 	@echo Please see the README file regarding the terminfo entry of $(BIN).
 
 uninstall:
-	rm -f $(DESTDIR)$(PREFIX)/bin/$(BIN) \
+	@$(RM) $(DESTDIR)$(PREFIX)/bin/$(BIN) \
 		$(DESTDIR)$(MANPREFIX)/man1/$(BIN).1
 
 .PHONY: options clean dist install uninstall
