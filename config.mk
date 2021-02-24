@@ -15,7 +15,7 @@ LIBS = -lutil \
        `pkg-config --libs fontconfig freetype2 x11 xft`
 
 # flags
-CPPFLAGS += -DVERSION=\"$(VERSION)\" -D_XOPEN_SOURCE=600
+CPPFLAGS += -DVERSION=\"$(VERSION)\"
 DEPFLAGS += -MMD -MP
 CFLAGS += -O2 \
 		-Wno-float-equal \
