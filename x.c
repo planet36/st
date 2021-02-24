@@ -1185,11 +1185,11 @@ xinit(int cols, int rows)
 int
 xmakeglyphfontspecs(XftGlyphFontSpec *specs, const Glyph *glyphs, int len, int x, int y)
 {
-	float winx = borderpx + x * win.cw, winy = borderpx + y * win.ch, xp, yp;
+	double winx = borderpx + x * win.cw, winy = borderpx + y * win.ch, xp, yp;
 	ushort mode, prevmode = USHRT_MAX;
 	Font *font = &dc.font;
 	int frcflags = FRC_NORMAL;
-	float runewidth = win.cw;
+	double runewidth = win.cw;
 	Rune rune;
 	FT_UInt glyphidx;
 	FcResult fcres;
@@ -1212,7 +1212,7 @@ xmakeglyphfontspecs(XftGlyphFontSpec *specs, const Glyph *glyphs, int len, int x
 			prevmode = mode;
 			font = &dc.font;
 			frcflags = FRC_NORMAL;
-			runewidth = win.cw * ((mode & ATTR_WIDE) ? 2.0f : 1.0f);
+			runewidth = win.cw * ((mode & ATTR_WIDE) ? 2.0 : 1.0);
 			if ((mode & ATTR_ITALIC) && (mode & ATTR_BOLD)) {
 				font = &dc.ibfont;
 				frcflags = FRC_ITALICBOLD;
