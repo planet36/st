@@ -1,4 +1,7 @@
 /* See LICENSE for license details. */
+#ifndef _GNU_SOURCE
+#define _GNU_SOURCE
+#endif
 #include <ctype.h>
 #include <errno.h>
 #include <fcntl.h>
