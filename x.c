@@ -36,8 +36,8 @@ typedef struct {
 
 typedef struct {
 	KeySym k;
-	uint mask;
 	char *s;
+	uint mask;
 	/* three-valued logic variables: 0 indifferent, 1 on, -1 off */
 	signed char appkey;    /* application keypad */
 	signed char appcursor; /* application cursor */
