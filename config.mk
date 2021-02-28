@@ -17,7 +17,7 @@ LIBS = -lutil \
 # flags
 CPPFLAGS += -DVERSION=\"$(VERSION)\"
 DEPFLAGS += -MMD -MP
-CFLAGS += -O2 \
+CFLAGS += -Os \
 		-Wno-float-equal \
 		-Wno-shadow \
 		-Wno-sign-compare \
