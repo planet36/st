@@ -2294,7 +2294,7 @@ eschandle(uchar ascii)
 		break;
 	default:
 		fprintf(stderr, "erresc: unknown sequence ESC 0x%02X '%c'\n",
-			(uchar) ascii, isprint(ascii)? ascii:'.');
+			(uint) ascii, isprint(ascii)? ascii:'.');
 		break;
 	}
 	return 1;
