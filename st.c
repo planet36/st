@@ -836,7 +836,6 @@ ttyread(void)
 		exit(0);
 	case -1:
 		die("couldn't read from shell: %s\n", strerror(errno));
-		break;
 	default:
 		buflen += ret;
 		written = twrite(buf, buflen, 0);
@@ -844,9 +843,8 @@ ttyread(void)
 		/* keep any incomplete UTF-8 byte sequence for the next call */
 		if (buflen > 0)
 			memmove(buf, buf + written, buflen);
-		break;
+		return ret;
 	}
-	return ret;
 }
 
 void
