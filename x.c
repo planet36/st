@@ -1556,7 +1556,7 @@ void
 xsetenv(void)
 {
 	// ceil(log10(2) * 63) == 19
-	char buf[1 + 19 + 1] = {'\0'}; // sign + digits + null
+	char buf[1 + 19 + 1] = {'\0'}; // sign char + max decimal digits + null char
 
 	snprintf(buf, sizeof(buf), "%lu", xw.win);
 	setenv("WINDOWID", buf, 1);
