@@ -9,10 +9,8 @@ PREFIX = /usr/local
 MANPREFIX = $(PREFIX)/share/man
 
 # includes and libs
-INCS = \
-       `pkg-config --cflags fontconfig freetype2 x11 xft`
-LIBS = -lm -lutil \
-       `pkg-config --libs fontconfig freetype2 x11 xft`
+INCS = `pkg-config --cflags fontconfig freetype2 x11 xft`
+LIBS = `pkg-config --libs   fontconfig freetype2 x11 xft` -lm -lutil
 
 # flags
 CPPFLAGS += -DVERSION=\"$(VERSION)\"
