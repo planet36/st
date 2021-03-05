@@ -1985,7 +1985,6 @@ main(int argc, char *argv[])
 {
 	int ch;
 	const char *optstring = "+ac:ef:g:hil:n:o:T:t:v";
-
 	xw.l = xw.t = 0;
 	xw.isfixed = False;
 	xsetcursor(cursorstyle);
