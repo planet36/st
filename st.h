@@ -1,4 +1,5 @@
 /* See LICENSE for license details. */
+#pragma once
 
 #include <stdint.h>
 #include <sys/types.h>
