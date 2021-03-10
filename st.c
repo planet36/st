@@ -1905,6 +1905,8 @@ strhandle(void)
 	case '_': /* APC -- Application Program Command */
 	case '^': /* PM -- Privacy Message */
 		return;
+	default:
+		break;
 	}
 
 	fprintf(stderr, "erresc: unknown str ");
@@ -2108,6 +2110,8 @@ tstrsequence(uchar c)
 	case 0x9d:   /* OSC -- Operating System Command */
 		c = ']';
 		break;
+	default:
+		break;
 	}
 	strreset();
 	strescseq.type = c;
@@ -2206,6 +2210,8 @@ tcontrolcode(uchar ascii)
 	case 0x9f:   /* APC -- Application Program Command */
 		tstrsequence(ascii);
 		return;
+	default:
+		break;
 	}
 	/* only CAN, SUB, \a and C1 chars interrupt a sequence */
 	term.esc &= ~(ESC_STR_END|ESC_STR);
