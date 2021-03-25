@@ -1846,7 +1846,7 @@ strhandle(void)
 
 	term.esc &= ~(ESC_STR_END|ESC_STR);
 	strparse();
-	par = (narg = strescseq.narg) ? atoi(strescseq.args[0]) : 0;
+	par = (narg = strescseq.narg) ? strtol(strescseq.args[0], NULL, 0) : 0;
 
 	switch (strescseq.type) {
 	case ']': /* OSC -- Operating System Command */
@@ -1882,7 +1882,7 @@ strhandle(void)
 			p = strescseq.args[2];
 			/* FALLTHROUGH */
 		case 104: /* color reset, here p = NULL */
-			j = (narg > 1) ? atoi(strescseq.args[1]) : -1;
+			j = (narg > 1) ? strtol(strescseq.args[1], NULL, 0) : -1;
 			if (xsetcolorname(j, p)) {
 				if (par == 104 && narg <= 1)
 					return; /* color reset without parameter */
