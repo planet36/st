@@ -218,8 +218,6 @@ static size_t utf8validate(Rune *, size_t);
 static char *base64dec(const char *);
 static char base64dec_getc(const char **);
 
-static int my_atoi(const char *);
-
 static ssize_t xwrite(int, const char *, size_t);
 
 /* Globals */
@@ -235,22 +233,6 @@ static uchar utfbyte[UTF_SIZ + 1] = {0x80,    0, 0xC0, 0xE0, 0xF0};
 static uchar utfmask[UTF_SIZ + 1] = {0xC0, 0x80, 0xE0, 0xF0, 0xF8};
 static Rune utfmin[UTF_SIZ + 1] = {       0,    0,  0x80,  0x800,  0x10000};
 static Rune utfmax[UTF_SIZ + 1] = {0x10FFFF, 0x7F, 0x7FF, 0xFFFF, 0x10FFFF};
-
-int
-my_atoi(const char *s)
-{
-	int result;
-	char *end;
-
-	errno = 0;
-	result = strtol(s, &end, 0);
-
-	if ((s == end) || (errno != 0)) {
-		die("strtol(%s): %s\n", s, strerror(errno));
-	}
-
-	return result;
-}
 
 ssize_t
 xwrite(int fd, const char *s, size_t len)
