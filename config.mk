@@ -13,7 +13,7 @@ INCS = `pkg-config --cflags fontconfig freetype2 x11 xft`
 LIBS = `pkg-config --libs   fontconfig freetype2 x11 xft` -lm -lutil
 
 # flags
-CPPFLAGS += -DVERSION=\"$(VERSION)\"
+CPPFLAGS += -DVERSION=\"$(VERSION)\" -D_DEFAULT_SOURCE
 DEPFLAGS += -MMD -MP
 CFLAGS += -Os \
 		-Wno-float-equal \
