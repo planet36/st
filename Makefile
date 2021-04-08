@@ -46,6 +46,9 @@ uninstall:
 	@$(RM) "$(DESTDIR)$(PREFIX)/bin/$(BIN)" \
 		"$(DESTDIR)$(MANPREFIX)/man1/$(BIN).1"
 
-.PHONY: options clean dist install uninstall
+lint:
+	clang-tidy $(SRCS) -- $(CFLAGS) $(LDFLAGS)
+
+.PHONY: options clean dist install uninstall lint
 
 -include $(DEPS)
