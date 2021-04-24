@@ -1763,6 +1763,16 @@ csihandle(void)
 		DEFAULT(csiescseq.arg[0], 1);
 		tputtab(-csiescseq.arg[0]);
 		break;
+	case '>':
+		switch (csiescseq.mode[1]) {
+		case 'c': /* TODO: Secondary DA -- Send Device Attributes */
+			break;
+		case 'q': /* TODO: XTVERSION -- Report xterm name and version */
+			break;
+		default:
+			goto unknown;
+		}
+		break;
 	case 'd': /* VPA -- Move to <row> */
 		DEFAULT(csiescseq.arg[0], 1);
 		tmoveato(term.c.x, csiescseq.arg[0]-1);
