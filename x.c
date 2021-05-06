@@ -70,7 +70,6 @@ static void ttysend(const Arg *);
 #define TRUERED(x)		(((x) & 0xff0000) >> 8)
 #define TRUEGREEN(x)		(((x) & 0xff00))
 #define TRUEBLUE(x)		(((x) & 0xff) << 8)
-#define DIVCEIL(n, d)		ceil((double)(n) / (double)(d))
 
 typedef XftDraw *Draw;
 typedef XftColor Color;
