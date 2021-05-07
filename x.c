@@ -883,6 +883,14 @@ xloadfont(Font *f, FcPattern *pattern)
 	FcPattern *match;
 	FcResult result;
 	XGlyphInfo extents;
+	/*
+	 * Printable characters in ASCII, used to estimate the advance width
+	 * of single wide characters.
+	 */
+	const char ascii_printable[] =
+	    " !\"#$%&'()*+,-./0123456789:;<=>?"
+	    "@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_"
+	    "`abcdefghijklmnopqrstuvwxyz{|}~";
 
 	/*
 	 * Manually configure instead of calling XftMatchFont
