@@ -2039,8 +2039,11 @@ newterm(const Arg *a)
 		die("fork failed: %s\n", strerror(errno));
 		break;
 	case 0:
-		chdir(getcwd_by_pid(pid));
-		execlp("st", "st", NULL);
+		if (chdir(getcwd_by_pid(pid)) < 0)
+			fprintf(stderr, "Couldn't chdir(%s): %s\n",
+			        getcwd_by_pid(pid), strerror(errno));
+		if (execlp("st", "st", NULL) < 0)
+			die("execlp: %s\n", strerror(errno));
 		break;
 	default:
 		break;
