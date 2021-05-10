@@ -2034,16 +2034,23 @@ getcwd_by_pid(pid_t pid)
 void
 newterm(const Arg *a)
 {
+	const char *cwd, *exe;
+
 	switch (fork()) {
 	case -1:
 		die("fork failed: %s\n", strerror(errno));
 		break;
 	case 0:
-		if (chdir(getcwd_by_pid(pid)) < 0)
-			fprintf(stderr, "Couldn't chdir(%s): %s\n",
-			        getcwd_by_pid(pid), strerror(errno));
-		if (execlp("st", "st", NULL) < 0)
-			die("execlp: %s\n", strerror(errno));
+		cwd = getcwd_by_pid(pid);
+		if (chdir(cwd) < 0)
+			fprintf(stderr, "Couldn't chdir(%s): %s\n", cwd, strerror(errno));
+
+		exe = realpath("/proc/self/exe", NULL);
+		if (exe == NULL)
+			die("realpath: %s\n", strerror(errno));
+
+		if (execl(exe, "st", NULL) < 0)
+			die("execl: %s\n", strerror(errno));
 		break;
 	default:
 		break;
