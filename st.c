@@ -2129,17 +2129,10 @@ printsel(const Arg *arg)
 	tdumpsel();
 }
 
-static char *
-getcwd_by_pid(pid_t pid)
-{
-	char buf[32];
-	snprintf(buf, sizeof(buf), "/proc/%d/cwd", pid);
-	return realpath(buf, NULL);
-}
-
 void
 newterm(const Arg *a)
 {
+	char proc_pid_cwd[32];
 	const char *cwd, *exe;
 
 	switch (fork()) {
@@ -2147,7 +2140,9 @@ newterm(const Arg *a)
 		die("fork failed: %s\n", strerror(errno));
 		break;
 	case 0:
-		cwd = getcwd_by_pid(pid);
+		snprintf(proc_pid_cwd, sizeof(proc_pid_cwd), "/proc/%d/cwd", pid);
+
+		cwd = realpath(proc_pid_cwd, NULL);
 		if (chdir(cwd) < 0)
 			fprintf(stderr, "Couldn't chdir(%s): %s\n", cwd, strerror(errno));
 
