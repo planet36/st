@@ -240,6 +240,7 @@ static char *usedfont = NULL;
 static double usedfontsize = 0;
 static double defaultfontsize = 0;
 
+char **argv_orig = NULL;
 static char *opt_class = NULL;
 static char **opt_cmd  = NULL;
 static char *opt_embed = NULL;
@@ -1998,6 +1999,7 @@ main(int argc, char *argv[])
 {
 	int ch;
 	const char *optstring = "+ac:ef:g:hil:n:o:T:t:v";
+	argv_orig = argv;
 	xw.l = xw.t = 0;
 	xw.isfixed = False;
 	xsetcursor(cursorstyle);

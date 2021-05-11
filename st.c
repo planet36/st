@@ -2150,8 +2150,8 @@ newterm(const Arg *a)
 		if (exe == NULL)
 			die("realpath: %s\n", strerror(errno));
 
-		if (execl(exe, "st", NULL) < 0)
-			die("execl: %s\n", strerror(errno));
+		if (execv(exe, argv_orig) < 0)
+			die("execv: %s\n", strerror(errno));
 		break;
 	default:
 		break;

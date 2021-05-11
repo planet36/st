@@ -124,3 +124,6 @@ extern char *termname;
 extern unsigned int tabspaces;
 extern unsigned int defaultfg;
 extern unsigned int defaultbg;
+
+/* x.c globals */
+extern char **argv_orig;
