@@ -2144,7 +2144,7 @@ newterm(const Arg *a)
 
 		cwd = realpath(proc_pid_cwd, NULL);
 		if (chdir(cwd) < 0)
-			fprintf(stderr, "Couldn't chdir(%s): %s\n", cwd, strerror(errno));
+			fprintf(stderr, "chdir('%s') failed: %s\n", cwd, strerror(errno));
 
 		exe = realpath("/proc/self/exe", NULL);
 		if (exe == NULL)
