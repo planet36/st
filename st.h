@@ -7,7 +7,7 @@
 /* macros */
 #define MIN(a, b)               ((b) < (a) ? (b) : (a))
 #define MAX(a, b)               ((a) < (b) ? (b) : (a))
-#define LEN(a)                  (sizeof(a) / sizeof((a)[0]))
+#define LEN(arr)                (sizeof(arr) / sizeof((arr)[0]))
 #define BETWEEN(x, a, b)        ((a) <= (x) && (x) <= (b))
 #define DEFAULT(a, b)           (a) = (a) ? (a) : (b)
 #define LIMIT(x, a, b)          (x) = (x) < (a) ? (a) : (x) > (b) ? (b) : (x)
