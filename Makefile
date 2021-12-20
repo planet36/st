@@ -10,7 +10,7 @@ OBJS = $(SRCS:.c=.o)
 BIN = st
 
 $(BIN): $(OBJS)
-	$(CC) $^ -o $@ $(LDFLAGS)
+	$(CC) $^ -o $@ $(LDLIBS)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $<
@@ -23,7 +23,7 @@ config.h:
 options:
 	@echo $(BIN) build options:
 	@echo "CFLAGS  = $(CFLAGS)"
-	@echo "LDFLAGS = $(LDFLAGS)"
+	@echo "LDLIBS  = $(LDLIBS)"
 	@echo "CC      = $(CC)"
 
 clean:
@@ -47,7 +47,7 @@ uninstall:
 		"$(DESTDIR)$(MANDIR)/man1/$(BIN).1"
 
 lint:
-	clang-tidy --quiet $(SRCS) -- $(CFLAGS) $(LDFLAGS)
+	clang-tidy --quiet $(SRCS) -- $(CFLAGS) $(LDLIBS)
 
 .PHONY: options clean dist install uninstall lint
 
