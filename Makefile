@@ -13,7 +13,7 @@ $(BIN): $(OBJS)
 	$(CC) $^ -o $@ $(LDLIBS)
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $<
+	$(CC) $(CPPFLAGS) $(DEPFLAGS) $(CFLAGS) -c $<
 
 $(OBJS): config.h config.mk
 
@@ -22,6 +22,8 @@ config.h:
 
 options:
 	@echo $(BIN) build options:
+	@echo "CPPFLAGS = $(CPPFLAGS)"
+	@echo "DEPFLAGS = $(DEPFLAGS)"
 	@echo "CFLAGS  = $(CFLAGS)"
 	@echo "LDLIBS  = $(LDLIBS)"
 	@echo "CC      = $(CC)"
@@ -47,7 +49,7 @@ uninstall:
 		"$(DESTDIR)$(MANDIR)/man1/$(BIN).1"
 
 lint:
-	clang-tidy --quiet $(SRCS) -- $(CFLAGS) $(LDLIBS)
+	clang-tidy --quiet $(SRCS) -- $(CPPFLAGS) $(CFLAGS) $(LDLIBS)
 
 .PHONY: options clean dist install uninstall lint
 
