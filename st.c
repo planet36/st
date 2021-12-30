@@ -1568,6 +1568,8 @@ tsetmode(int priv, int set, const int *args, int narg)
 				      and can be mistaken for other control
 				      codes. */
 				break;
+			case 2026: /* TODO: begin/end synchronized update */
+				break;
 			case 7727: /* TODO: application escape mode */
 				break;
 			case 7786: /* TODO: mouse wheel - cursor key translation */
