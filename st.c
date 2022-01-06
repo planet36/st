@@ -1966,7 +1966,7 @@ void
 osc4_color_response(int num)
 {
 	int n;
-	char buf[32];
+	char buf[64];
 	unsigned char r, g, b;
 
 	if (xgetcolor(num, &r, &g, &b)) {
@@ -1984,7 +1984,7 @@ void
 osc_color_response(int index, int num)
 {
 	int n;
-	char buf[32];
+	char buf[64];
 	unsigned char r, g, b;
 
 	if (xgetcolor(index, &r, &g, &b)) {
