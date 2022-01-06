@@ -1974,8 +1974,8 @@ osc4_color_response(int num)
 		return;
 	}
 
-	n = snprintf(buf, sizeof buf, "\033]4;%d;rgb:%02x%02x/%02x%02x/%02x%02x\007",
-		     num, r, r, g, g, b, b);
+	n = snprintf(buf, sizeof(buf), "\033]4;%d;rgb:%02x%02x/%02x%02x/%02x%02x\007",
+	             num, r, r, g, g, b, b);
 
 	ttywrite(buf, n, 1);
 }
@@ -1992,8 +1992,8 @@ osc_color_response(int index, int num)
 		return;
 	}
 
-	n = snprintf(buf, sizeof buf, "\033]%d;rgb:%02x%02x/%02x%02x/%02x%02x\007",
-		     num, r, r, g, g, b, b);
+	n = snprintf(buf, sizeof(buf), "\033]%d;rgb:%02x%02x/%02x%02x/%02x%02x\007",
+	             num, r, r, g, g, b, b);
 
 	ttywrite(buf, n, 1);
 }
