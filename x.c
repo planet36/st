@@ -69,9 +69,9 @@ static void ttysend(const Arg *);
 
 /* macros */
 #define IS_SET(flag)    ((win.mode & (flag)) != 0)
-#define TRUERED(x)      (((x) & 0xff0000) >> 8)
-#define TRUEGREEN(x)    (((x) & 0xff00))
-#define TRUEBLUE(x)     (((x) & 0xff) << 8)
+#define TRUERED(x)      ((((x) & 0xff0000) >> 16) * 257)
+#define TRUEGREEN(x)    ((((x) & 0xff00) >> 8) * 257)
+#define TRUEBLUE(x)     (((x) & 0xff) * 257)
 #define DIVCEIL(n, d)   (((n) + ((d) - 1)) / (d))
 
 typedef XftDraw *Draw;
