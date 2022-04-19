@@ -1959,7 +1959,7 @@ void
 osc_color_response(int num, int index, int is_osc4)
 {
 	int n;
-	char buf[32];
+	char buf[64];
 	unsigned char r, g, b;
 
 	if (xgetcolor(is_osc4 ? num : index, &r, &g, &b)) {
