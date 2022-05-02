@@ -17,7 +17,6 @@ LIBS = `pkg-config --libs   fontconfig freetype2 x11 xft` -lutil
 CPPFLAGS += -DVERSION=\"$(VERSION)\" -D_DEFAULT_SOURCE $(INCS)
 DEPFLAGS += -MMD -MP
 CFLAGS += -O2 \
-		-Wno-float-equal \
 		-Wno-shadow \
 		-Wno-sign-compare \
 		-Wno-switch-default \
