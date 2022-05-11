@@ -1,10 +1,4 @@
 /* See LICENSE for license details. */
-#include <X11/XKBlib.h>
-#include <X11/Xatom.h>
-#include <X11/Xft/Xft.h>
-#include <X11/Xlib.h>
-#include <X11/cursorfont.h>
-#include <X11/keysym.h>
 #include <errno.h>
 #include <libgen.h>
 #include <limits.h>
@@ -14,6 +8,12 @@
 #include <sys/select.h>
 #include <time.h>
 #include <unistd.h>
+#include <X11/cursorfont.h>
+#include <X11/keysym.h>
+#include <X11/Xatom.h>
+#include <X11/Xft/Xft.h>
+#include <X11/XKBlib.h>
+#include <X11/Xlib.h>
 
 #include "st.h"
 #include "win.h"
