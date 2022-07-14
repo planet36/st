@@ -10,8 +10,8 @@ BINDIR ?= $(PREFIX)/bin
 MANDIR ?= $(PREFIX)/share/man
 
 # includes and libs
-INCS = `pkg-config --cflags fontconfig freetype2 x11 xft`
-LIBS = `pkg-config --libs   fontconfig freetype2 x11 xft` -lutil
+INCS = `pkg-config --cflags xft`
+LIBS = `pkg-config --libs   fontconfig x11 xft`
 
 # flags
 CPPFLAGS += -DVERSION=\"$(VERSION)\" -D_DEFAULT_SOURCE $(INCS)
