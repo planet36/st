@@ -1,6 +1,6 @@
 # st version
 VERSION = 0.8.5
-VERSION := $(VERSION)-sdw
+VERSION := $(shell git describe --tags)-planet36
 
 # Customize below to fit your system
 
