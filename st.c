@@ -2064,6 +2064,8 @@ strhandle(void)
 				tfulldirt();
 			}
 			return;
+		default:
+			break;
 		}
 		break;
 	case 'k': /* old title set compatibility */
