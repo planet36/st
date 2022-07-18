@@ -656,7 +656,7 @@ die(const char *errstr, ...)
 	va_list ap;
 
 	va_start(ap, errstr);
-	vfprintf(stderr, errstr, ap);
+	(void)vfprintf(stderr, errstr, ap);
 	va_end(ap);
 	exit(1);
 }
@@ -702,12 +702,12 @@ execsh(char *cmd, char **args)
 	setenv("HOME", pw->pw_dir, 1);
 	setenv("TERM", termname, 1);
 
-	signal(SIGCHLD, SIG_DFL);
-	signal(SIGHUP, SIG_DFL);
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
-	signal(SIGTERM, SIG_DFL);
-	signal(SIGALRM, SIG_DFL);
+	(void)signal(SIGCHLD, SIG_DFL);
+	(void)signal(SIGHUP, SIG_DFL);
+	(void)signal(SIGINT, SIG_DFL);
+	(void)signal(SIGQUIT, SIG_DFL);
+	(void)signal(SIGTERM, SIG_DFL);
+	(void)signal(SIGALRM, SIG_DFL);
 
 	execvp(prog, args);
 	_exit(1);
@@ -812,7 +812,7 @@ ttynew(const char *line, char *cmd, const char *out, char **args)
 #endif
 		close(s);
 		cmdfd = m;
-		signal(SIGCHLD, sigchld);
+		(void)signal(SIGCHLD, sigchld);
 		break;
 	}
 	return cmdfd;
@@ -1935,7 +1935,7 @@ csidump(void)
 	for (i = 0; i < csiescseq.len; i++) {
 		c = csiescseq.buf[i] & 0xff;
 		if (isprint(c)) {
-			putc(c, stderr);
+			(void)putc(c, stderr);
 		} else if (c == '\n') {
 			fprintf(stderr, "(\\n)");
 		} else if (c == '\r') {
@@ -1946,7 +1946,7 @@ csidump(void)
 			fprintf(stderr, "(%02x)", c);
 		}
 	}
-	putc('\n', stderr);
+	(void)putc('\n', stderr);
 }
 
 void
@@ -2113,10 +2113,10 @@ strdump(void)
 	for (i = 0; i < strescseq.len; i++) {
 		c = strescseq.buf[i] & 0xff;
 		if (c == '\0') {
-			putc('\n', stderr);
+			(void)putc('\n', stderr);
 			return;
 		} else if (isprint(c)) {
-			putc(c, stderr);
+			(void)putc(c, stderr);
 		} else if (c == '\n') {
 			fprintf(stderr, "(\\n)");
 		} else if (c == '\r') {
