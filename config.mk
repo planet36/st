@@ -14,7 +14,7 @@ INCS = `pkg-config --cflags xft`
 LIBS = `pkg-config --libs   fontconfig x11 xft`
 
 # flags
-CPPFLAGS += -DVERSION=\"$(VERSION)\" -D_DEFAULT_SOURCE $(INCS)
+CPPFLAGS += -DVERSION=\"$(VERSION)\" -D_XOPEN_SOURCE=600 $(INCS)
 DEPFLAGS += -MMD -MP
 CFLAGS += -O2 \
 		-Wno-shadow \

@@ -1,8 +1,4 @@
 /* See LICENSE for license details. */
-#ifndef _XOPEN_SOURCE
-// Needed for wcwidth
-#define _XOPEN_SOURCE
-#endif
 #include <ctype.h>
 #include <errno.h>
 #include <fcntl.h>
