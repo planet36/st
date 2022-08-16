@@ -3,7 +3,7 @@
 st \- simple terminal
 .SH SYNOPSIS
 .B st
-.RB [ \-aiv ]
+.RB [ \-ahiV ]
 .RB [ \-c
 .IR class ]
 .RB [ \-f
@@ -27,7 +27,7 @@ st \- simple terminal
 .RI [ arguments ...]]
 .PP
 .B st
-.RB [ \-aiv ]
+.RB [ \-ahiV ]
 .RB [ \-c
 .IR class ]
 .RB [ \-f
@@ -111,8 +111,11 @@ example 'st -l /dev/ttyS0 cs7 115200'. See
 .BR stty(1)
 for more arguments and cases.
 .TP
-.B \-v
-prints version information to stdout, then exits.
+.B \-V
+Print the version information, then exit.
+.TP
+.B \-h
+Print this message, then exit.
 .TP
 .BI \-e " command " [ " arguments " "... ]"
 st executes

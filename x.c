@@ -2009,11 +2009,11 @@ run(void)
 void
 usage(const char *argv0)
 {
-	printf("usage: %s [-aiv] [-c class] [-f font] [-g geometry]"
+	printf("usage: %s [-ahiV] [-c class] [-f font] [-g geometry]"
 	    " [-n name] [-o file]\n"
 	    "          [-T title] [-t title] [-w windowid]"
 	    " [[-e] command [args ...]]\n"
-	    "       %s [-aiv] [-c class] [-f font] [-g geometry]"
+	    "       %s [-ahiV] [-c class] [-f font] [-g geometry]"
 	    " [-n name] [-o file]\n"
 	    "          [-T title] [-t title] [-w windowid] -l line"
 	    " [stty_args ...]\n", argv0, argv0);
@@ -2023,7 +2023,7 @@ int
 main(int argc, char *argv[])
 {
 	int ch;
-	const char *optstring = "+ac:ef:g:hil:n:o:T:t:v";
+	const char *optstring = "+ac:ef:g:hil:n:o:T:t:V";
 	argv_orig = argv;
 	xw.l = xw.t = 0;
 	xw.isfixed = False;
@@ -2070,7 +2070,7 @@ main(int argc, char *argv[])
 		case 'w':
 			opt_embed = optarg;
 			break;
-		case 'v':
+		case 'V':
 			printf("%s " VERSION "\n", argv[0]);
 			return 0;
 			break;
