@@ -2009,7 +2009,7 @@ run(void)
 void
 usage(const char *argv0)
 {
-	printf("usage: %s [-ahiV] [-c class] [-f font] [-g geometry] [-n name] [-o file]\n"
+	printf("Usage: %s [-ahiV] [-c class] [-f font] [-g geometry] [-n name] [-o file]\n"
 	    "          [-T title] [-t title] [-w windowid] [[-e] command [args ...]]\n"
 	    "       %s [-ahiV] [-c class] [-f font] [-g geometry] [-n name] [-o file]\n"
 	    "          [-T title] [-t title] [-w windowid] -l line [stty_args ...]\n",
