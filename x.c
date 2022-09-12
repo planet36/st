@@ -1003,7 +1003,6 @@ xloadfonts(const char *fontstr, double fontsize)
 		}
 		defaultfontsize = usedfontsize;
 	}
-	FcPatternAddBool(pattern, FC_COLOR, FcFalse);
 
 	if (xloadfont(&dc.font, pattern))
 		die("can't open font %s\n", fontstr);
@@ -1316,6 +1315,7 @@ xmakeglyphfontspecs(XftGlyphFontSpec *specs, const Glyph *glyphs, int len, int x
 			FcCharSetAddChar(fccharset, rune);
 			FcPatternAddCharSet(fcpattern, FC_CHARSET, fccharset);
 			FcPatternAddBool(fcpattern, FC_SCALABLE, FcTrue);
+			FcPatternAddBool(fcpattern, FC_COLOR, FcFalse);
 
 			FcConfigSubstitute(0, fcpattern, FcMatchPattern);
 			FcDefaultSubstitute(fcpattern);
