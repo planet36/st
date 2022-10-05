@@ -1,6 +1,6 @@
 # st version
 VERSION = 0.9
-VERSION := $(shell git describe --tags)-planet36
+VERSION := $(shell git describe --tags --abbrev=0)-planet36
 
 # Customize below to fit your system
 
