@@ -1834,9 +1834,9 @@ kpress(XEvent *ev)
 		return;
 
 	if (xw.ime.xic)
-		len = XmbLookupString(xw.ime.xic, e, buf, sizeof(buf), &ksym, &status);
+		len = XmbLookupString(xw.ime.xic, e, buf, sizeof buf, &ksym, &status);
 	else
-		len = XLookupString(e, buf, sizeof(buf), &ksym, NULL);
+		len = XLookupString(e, buf, sizeof buf, &ksym, NULL);
 	/* 1. shortcuts */
 	for (bp = shortcuts; bp < shortcuts + LEN(shortcuts); bp++) {
 		if (ksym == bp->keysym && match(bp->mod, e->state)) {
