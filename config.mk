@@ -15,7 +15,7 @@ LIBS = `pkg-config --libs   fontconfig x11 xft`
 
 # flags
 CPPFLAGS += -DVERSION=\"$(VERSION)\" -D_XOPEN_SOURCE=600 $(INCS)
-DEPFLAGS += -MMD -MP
+CPPFLAGS += -MMD -MP
 CFLAGS += -O2 \
 		-Wno-shadow \
 		-Wno-sign-compare \
