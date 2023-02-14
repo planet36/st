@@ -12,9 +12,6 @@ BIN = st
 $(BIN): $(OBJS)
 	$(CC) $^ -o $@ $(LDLIBS)
 
-%.o: %.c
-	$(CC) $(CPPFLAGS) $(CFLAGS) -c $<
-
 $(OBJS): config.mk
 
 options:
