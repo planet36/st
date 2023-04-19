@@ -961,8 +961,6 @@ xloadfont(Font *f, FcPattern *pattern)
 
 	f->height = f->ascent + f->descent;
 	f->width = DIVCEIL(extents.xOff, strlen(ascii_printable));
-	if (extents.xOff > extents.width)
-		f->width -= extents.xOff - extents.width;
 
 	return 0;
 }
