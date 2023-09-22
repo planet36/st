@@ -14,14 +14,6 @@ $(BIN): $(OBJS)
 
 $(OBJS): config.mk
 
-options:
-	@echo $(BIN) build options:
-	@echo "CPPFLAGS = $(CPPFLAGS)"
-	@echo "CFLAGS  = $(CFLAGS)"
-	@echo "LDFLAGS = $(LDFLAGS)"
-	@echo "LDLIBS  = $(LDLIBS)"
-	@echo "CC      = $(CC)"
-
 clean:
 	@$(RM) --verbose -- $(DEPS) $(OBJS) $(BIN) $(BIN)-$(VERSION).tar.xz
 
@@ -45,6 +37,6 @@ uninstall:
 lint:
 	-clang-tidy --quiet $(SRCS) -- $(CPPFLAGS) $(CFLAGS)
 
-.PHONY: options clean dist install uninstall lint
+.PHONY: clean dist install uninstall lint
 
 -include $(DEPS)
