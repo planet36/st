@@ -373,7 +373,7 @@ base64dec(const char *src)
 
 	if (in_len % 4)
 		in_len += 4 - (in_len % 4);
-	result = dst = xmalloc(in_len / 4 * 3 + 1);
+	result = dst = (char*)xmalloc(in_len / 4 * 3 + 1);
 	while (*src) {
 		int a = base64_digits[(unsigned char) base64dec_getc(&src)];
 		int b = base64_digits[(unsigned char) base64dec_getc(&src)];
@@ -592,7 +592,7 @@ getsel(void)
 		return NULL;
 
 	bufsize = (term.col+1) * (sel.ne.y-sel.nb.y+1) * UTF_SIZ;
-	ptr = str = xmalloc(bufsize);
+	ptr = str = (char*)xmalloc(bufsize);
 
 	/* append every set & selected glyph to the selection */
 	for (y = sel.nb.y; y <= sel.ne.y; y++) {
@@ -859,7 +859,7 @@ ttywrite(const char *s, size_t n, int may_echo)
 			next = s + 1;
 			ttywriteraw("\r\n", 2);
 		} else {
-			next = memchr(s, '\r', n);
+			next = (const char*)memchr(s, '\r', n);
 			DEFAULT(next, s + n);
 			ttywriteraw(s, next - s);
 		}
@@ -2141,7 +2141,7 @@ void
 strreset(void)
 {
 	strescseq = (STREscape){
-		.buf = xrealloc(strescseq.buf, STR_BUF_SIZ),
+		.buf = (char*)xrealloc(strescseq.buf, STR_BUF_SIZ),
 		.siz = STR_BUF_SIZ,
 	};
 }
@@ -2561,7 +2561,7 @@ tputc(Rune u)
 			if (strescseq.siz > (SIZE_MAX - UTF_SIZ) / 2)
 				return;
 			strescseq.siz *= 2;
-			strescseq.buf = xrealloc(strescseq.buf, strescseq.siz);
+			strescseq.buf = (char*)xrealloc(strescseq.buf, strescseq.siz);
 		}
 
 		memmove(&strescseq.buf[strescseq.len], c, len);
@@ -2726,21 +2726,21 @@ tresize(int col, int row)
 	}
 
 	/* resize to new height */
-	term.line = xrealloc(term.line, row * sizeof(Line));
-	term.alt  = xrealloc(term.alt,  row * sizeof(Line));
-	term.dirty = xrealloc(term.dirty, row * sizeof(*term.dirty));
-	term.tabs = xrealloc(term.tabs, col * sizeof(*term.tabs));
+	term.line = (Glyph**)xrealloc(term.line, row * sizeof(Line));
+	term.alt  = (Glyph**)xrealloc(term.alt,  row * sizeof(Line));
+	term.dirty = (int*)xrealloc(term.dirty, row * sizeof(*term.dirty));
+	term.tabs = (int*)xrealloc(term.tabs, col * sizeof(*term.tabs));
 
 	/* resize each row to new width, zero-pad if needed */
 	for (i = 0; i < minrow; i++) {
-		term.line[i] = xrealloc(term.line[i], col * sizeof(Glyph));
-		term.alt[i]  = xrealloc(term.alt[i],  col * sizeof(Glyph));
+		term.line[i] = (Glyph*)xrealloc(term.line[i], col * sizeof(Glyph));
+		term.alt[i]  = (Glyph*)xrealloc(term.alt[i],  col * sizeof(Glyph));
 	}
 
 	/* allocate any new rows */
 	for (/* i = minrow */; i < row; i++) {
-		term.line[i] = xmalloc(col * sizeof(Glyph));
-		term.alt[i] = xmalloc(col * sizeof(Glyph));
+		term.line[i] = (Glyph*)xmalloc(col * sizeof(Glyph));
+		term.alt[i] = (Glyph*)xmalloc(col * sizeof(Glyph));
 	}
 	if (col > term.col) {
 		bp = term.tabs + term.col;
