@@ -1299,8 +1299,8 @@ xmakeglyphfontspecs(XftGlyphFontSpec *specs, const Glyph *glyphs, int len, int x
 		/* Nothing was found. Use fontconfig to find matching font. */
 		if (f >= frclen) {
 			if (!font->set)
-				font->set = FcFontSort(0, font->pattern,
-				                       1, 0, &fcres);
+				font->set = FcFontSort(NULL, font->pattern,
+				                       1, NULL, &fcres);
 			fcsets[0] = font->set;
 
 			/*
@@ -1317,10 +1317,10 @@ xmakeglyphfontspecs(XftGlyphFontSpec *specs, const Glyph *glyphs, int len, int x
 			FcPatternAddCharSet(fcpattern, FC_CHARSET, fccharset);
 			FcPatternAddBool(fcpattern, FC_SCALABLE, FcTrue);
 
-			FcConfigSubstitute(0, fcpattern, FcMatchPattern);
+			FcConfigSubstitute(NULL, fcpattern, FcMatchPattern);
 			FcDefaultSubstitute(fcpattern);
 
-			fontpattern = FcFontSetMatch(0, fcsets, 1, fcpattern, &fcres);
+			fontpattern = FcFontSetMatch(NULL, fcsets, 1, fcpattern, &fcres);
 
 			/* Allocate memory for the new cache entry. */
 			if (frclen >= frccap) {
