@@ -742,7 +742,7 @@ stty(char **args)
 	}
 	*q = '\0';
 	if (system(cmd) != 0)
-		perror("Couldn't call stty");
+		warn("Couldn't call stty");
 }
 
 int
@@ -755,8 +755,7 @@ ttynew(const char *line, char *cmd, const char *out, char **args)
 		iofd = (!strcmp(out, "-")) ?
 			  1 : open(out, O_WRONLY | O_CREAT, 0666);
 		if (iofd < 0) {
-			fprintf(stderr, "Error opening %s:%s\n",
-				out, strerror(errno));
+			warn("Error opening %s", out);
 		}
 	}
 
@@ -923,7 +922,7 @@ ttyresize(int tw, int th)
 	w.ws_xpixel = tw;
 	w.ws_ypixel = th;
 	if (ioctl(cmdfd, TIOCSWINSZ, &w) < 0)
-		fprintf(stderr, "Couldn't set window size: %s\n", strerror(errno));
+		warn("Couldn't set window size");
 }
 
 void
@@ -2145,14 +2144,14 @@ void
 sendbreak(const Arg *arg)
 {
 	if (tcsendbreak(cmdfd, 0))
-		perror("Error sending break");
+		warn("Error sending break");
 }
 
 void
 tprinter(char *s, size_t len)
 {
 	if (iofd != -1 && xwrite(iofd, s, len) < 0) {
-		perror("Error writing to output file");
+		warn("Error writing to output file");
 		close(iofd);
 		iofd = -1;
 	}
@@ -2191,7 +2190,7 @@ newterm(const Arg *a)
 
 		cwd = realpath(proc_pid_cwd, NULL);
 		if (chdir(cwd) < 0)
-			fprintf(stderr, "chdir('%s') failed: %s\n", cwd, strerror(errno));
+			warn("chdir('%s') failed", cwd);
 
 		exe = realpath("/proc/self/exe", NULL);
 		if (exe == NULL)
