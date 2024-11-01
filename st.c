@@ -709,7 +709,7 @@ sigchld(int a)
 	pid_t p;
 
 	if ((p = waitpid(pid, &stat, WNOHANG)) < 0)
-		errx(EXIT_FAILURE, "waiting for pid %hd failed", pid);
+		errx(EXIT_FAILURE, "waiting for pid %d failed", pid);
 
 	if (pid != p)
 		return;
