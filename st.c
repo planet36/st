@@ -2143,7 +2143,7 @@ strreset(void)
 void
 sendbreak(const Arg *arg)
 {
-	if (tcsendbreak(cmdfd, 0))
+	if (tcsendbreak(cmdfd, 0) < 0)
 		warn("Error sending break");
 }
 
