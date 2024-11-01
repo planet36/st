@@ -1,5 +1,6 @@
 /* See LICENSE for license details. */
 #include <ctype.h>
+#include <err.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <limits.h>
@@ -255,7 +256,7 @@ xmalloc(size_t len)
 	void *p;
 
 	if (!(p = malloc(len)))
-		die("malloc: %s\n", strerror(errno));
+		err(EXIT_FAILURE, "malloc");
 
 	return p;
 }
@@ -264,7 +265,7 @@ void *
 xrealloc(void *p, size_t len)
 {
 	if ((p = realloc(p, len)) == NULL)
-		die("realloc: %s\n", strerror(errno));
+		err(EXIT_FAILURE, "realloc");
 
 	return p;
 }
@@ -275,7 +276,7 @@ xstrdup(const char *s)
 	char *p;
 
 	if ((p = strdup(s)) == NULL)
-		die("strdup: %s\n", strerror(errno));
+		err(EXIT_FAILURE, "strdup");
 
 	return p;
 }
@@ -647,17 +648,6 @@ selclear(void)
 }
 
 void
-die(const char *errstr, ...)
-{
-	va_list ap;
-
-	va_start(ap, errstr);
-	(void)vfprintf(stderr, errstr, ap);
-	va_end(ap);
-	exit(1);
-}
-
-void
 execsh(char *cmd, char **args)
 {
 	char *sh, *prog, *arg;
@@ -666,9 +656,9 @@ execsh(char *cmd, char **args)
 	errno = 0;
 	if ((pw = getpwuid(getuid())) == NULL) {
 		if (errno)
-			die("getpwuid: %s\n", strerror(errno));
+			err(EXIT_FAILURE, "getpwuid");
 		else
-			die("who are you?\n");
+			errx(EXIT_FAILURE, "who are you?");
 	}
 
 	if ((sh = getenv("SHELL")) == NULL)
@@ -719,15 +709,15 @@ sigchld(int a)
 	pid_t p;
 
 	if ((p = waitpid(pid, &stat, WNOHANG)) < 0)
-		die("waiting for pid %hd failed: %s\n", pid, strerror(errno));
+		errx(EXIT_FAILURE, "waiting for pid %hd failed", pid);
 
 	if (pid != p)
 		return;
 
 	if (WIFEXITED(stat) && WEXITSTATUS(stat))
-		die("child exited with status %d\n", WEXITSTATUS(stat));
+		errx(EXIT_FAILURE, "child exited with status %d", WEXITSTATUS(stat));
 	else if (WIFSIGNALED(stat))
-		die("child terminated due to signal %d\n", WTERMSIG(stat));
+		errx(EXIT_FAILURE, "child terminated due to signal %d", WTERMSIG(stat));
 	_exit(0);
 }
 
@@ -738,13 +728,13 @@ stty(char **args)
 	size_t n, siz;
 
 	if ((n = strlen(stty_args)) > sizeof(cmd)-1)
-		die("incorrect stty parameters\n");
+		errx(EXIT_FAILURE, "incorrect stty parameters");
 	memcpy(cmd, stty_args, n);
 	q = cmd + n;
 	siz = sizeof(cmd) - n;
 	for (p = args; p && (s = *p); ++p) {
 		if ((n = strlen(s)) > siz-1)
-			die("stty parameter length too long\n");
+			errx(EXIT_FAILURE, "stty parameter length too long");
 		*q++ = ' ';
 		memcpy(q, s, n);
 		q += n;
@@ -772,8 +762,7 @@ ttynew(const char *line, char *cmd, const char *out, char **args)
 
 	if (line) {
 		if ((cmdfd = open(line, O_RDWR)) < 0)
-			die("open line '%s' failed: %s\n",
-			    line, strerror(errno));
+			err(EXIT_FAILURE, "open line '%s' failed", line);
 		dup2(cmdfd, 0);
 		stty(args);
 		return cmdfd;
@@ -781,11 +770,11 @@ ttynew(const char *line, char *cmd, const char *out, char **args)
 
 	/* seems to work fine on linux, openbsd and freebsd */
 	if (openpty(&m, &s, NULL, NULL, NULL) < 0)
-		die("openpty failed: %s\n", strerror(errno));
+		err(EXIT_FAILURE, "openpty");
 
 	switch (pid = fork()) {
 	case -1:
-		die("fork failed: %s\n", strerror(errno));
+		err(EXIT_FAILURE, "fork");
 		break;
 	case 0:
 		close(iofd);
@@ -795,19 +784,19 @@ ttynew(const char *line, char *cmd, const char *out, char **args)
 		dup2(s, 1);
 		dup2(s, 2);
 		if (ioctl(s, TIOCSCTTY, NULL) < 0)
-			die("ioctl TIOCSCTTY failed: %s\n", strerror(errno));
+			err(EXIT_FAILURE, "ioctl(TIOCSCTTY)");
 		if (s > 2)
 			close(s);
 #ifdef __OpenBSD__
 		if (pledge("stdio getpw proc exec", NULL) == -1)
-			die("pledge\n");
+			errx(EXIT_FAILURE, "pledge");
 #endif
 		execsh(cmd, args);
 		break;
 	default:
 #ifdef __OpenBSD__
 		if (pledge("stdio rpath tty proc", NULL) == -1)
-			die("pledge\n");
+			errx("pledge");
 #endif
 		close(s);
 		cmdfd = m;
@@ -831,7 +820,7 @@ ttyread(void)
 	case 0:
 		exit(0);
 	case -1:
-		die("couldn't read from shell: %s\n", strerror(errno));
+		err(EXIT_FAILURE, "couldn't read from shell");
 	default:
 		buflen += ret;
 		written = twrite(buf, buflen, 0);
@@ -894,7 +883,7 @@ ttywriteraw(const char *s, size_t n)
 		if (pselect(cmdfd+1, &rfd, &wfd, NULL, NULL, NULL) < 0) {
 			if (errno == EINTR)
 				continue;
-			die("select failed: %s\n", strerror(errno));
+			err(EXIT_FAILURE, "pselect");
 		}
 		if (FD_ISSET(cmdfd, &wfd)) {
 			/*
@@ -903,7 +892,7 @@ ttywriteraw(const char *s, size_t n)
 			 * for a serial line. Bigger values might clog the I/O.
 			 */
 			if ((r = write(cmdfd, s, (n < lim) ? n : lim)) < 0)
-				die("write error on tty: %s\n", strerror(errno));
+				err(EXIT_FAILURE, "write error on tty");
 			if (r < n) {
 				/*
 				 * We weren't able to write out everything.
@@ -1612,7 +1601,6 @@ csihandle(void)
 	unknown:
 		fprintf(stderr, "erresc: unknown csi ");
 		csidump();
-		/* die(""); */
 		break;
 	case '@': /* ICH -- Insert <n> blank char */
 		DEFAULT(csiescseq.arg[0], 1);
@@ -2196,7 +2184,7 @@ newterm(const Arg *a)
 
 	switch (fork()) {
 	case -1:
-		die("fork failed: %s\n", strerror(errno));
+		err(EXIT_FAILURE, "fork");
 		break;
 	case 0:
 		snprintf(proc_pid_cwd, sizeof(proc_pid_cwd), "/proc/%d/cwd", pid);
@@ -2207,10 +2195,10 @@ newterm(const Arg *a)
 
 		exe = realpath("/proc/self/exe", NULL);
 		if (exe == NULL)
-			die("realpath: %s\n", strerror(errno));
+			err(EXIT_FAILURE, "realpath");
 
 		if (execv(exe, argv_orig) < 0)
-			die("execv: %s\n", strerror(errno));
+			err(EXIT_FAILURE, "execv");
 		break;
 	default:
 		break;

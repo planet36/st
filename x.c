@@ -1,10 +1,12 @@
 /* See LICENSE for license details. */
+#include <err.h>
 #include <errno.h>
 #include <libgen.h>
 #include <limits.h>
 #include <locale.h>
 #include <math.h>
 #include <signal.h>
+#include <stdlib.h>
 #include <sys/select.h>
 #include <time.h>
 #include <unistd.h>
@@ -808,9 +810,9 @@ xloadcols(void)
 	for (i = 0; i < dc.collen; i++)
 		if (!xloadcolor(i, NULL, &dc.col[i])) {
 			if (colorname[i])
-				die("could not allocate color '%s'\n", colorname[i]);
+				errx(EXIT_FAILURE, "could not allocate color '%s'", colorname[i]);
 			else
-				die("could not allocate color %d\n", i);
+				errx(EXIT_FAILURE, "could not allocate color %d", i);
 		}
 	loaded = 1;
 }
@@ -977,7 +979,7 @@ xloadfonts(const char *fontstr, double fontsize)
 		pattern = FcNameParse((const FcChar8 *)fontstr);
 
 	if (!pattern)
-		die("can't open font %s\n", fontstr);
+		errx(EXIT_FAILURE, "can't open font %s", fontstr);
 
 	if (fontsize > 1) {
 		FcPatternDel(pattern, FC_PIXEL_SIZE);
@@ -1003,7 +1005,7 @@ xloadfonts(const char *fontstr, double fontsize)
 	}
 
 	if (xloadfont(&dc.font, pattern))
-		die("can't open font %s\n", fontstr);
+		errx(EXIT_FAILURE, "can't open font %s", fontstr);
 
 	if (usedfontsize < 0) {
 		FcPatternGetDouble(dc.font.match->pattern,
@@ -1020,17 +1022,17 @@ xloadfonts(const char *fontstr, double fontsize)
 	FcPatternDel(pattern, FC_SLANT);
 	FcPatternAddInteger(pattern, FC_SLANT, FC_SLANT_ITALIC);
 	if (xloadfont(&dc.ifont, pattern))
-		die("can't open font %s\n", fontstr);
+		errx(EXIT_FAILURE, "can't open font %s", fontstr);
 
 	FcPatternDel(pattern, FC_WEIGHT);
 	FcPatternAddInteger(pattern, FC_WEIGHT, FC_WEIGHT_BOLD);
 	if (xloadfont(&dc.ibfont, pattern))
-		die("can't open font %s\n", fontstr);
+		errx(EXIT_FAILURE, "can't open font %s", fontstr);
 
 	FcPatternDel(pattern, FC_SLANT);
 	FcPatternAddInteger(pattern, FC_SLANT, FC_SLANT_ROMAN);
 	if (xloadfont(&dc.bfont, pattern))
-		die("can't open font %s\n", fontstr);
+		errx(EXIT_FAILURE, "can't open font %s", fontstr);
 
 	FcPatternDestroy(pattern);
 }
@@ -1121,13 +1123,13 @@ xinit(int cols, int rows)
 	XColor xmousefg, xmousebg;
 
 	if (!(xw.dpy = XOpenDisplay(NULL)))
-		die("can't open display\n");
+		errx(EXIT_FAILURE, "can't open display");
 	xw.scr = XDefaultScreen(xw.dpy);
 	xw.vis = XDefaultVisual(xw.dpy, xw.scr);
 
 	/* font */
 	if (!FcInit())
-		die("could not init fontconfig.\n");
+		errx(EXIT_FAILURE, "could not init fontconfig.");
 
 	usedfont = (opt_font == NULL) ? font : opt_font;
 	xloadfonts(usedfont, 0);
@@ -1331,8 +1333,7 @@ xmakeglyphfontspecs(XftGlyphFontSpec *specs, const Glyph *glyphs, int len, int x
 			frc[frclen].font = XftFontOpenPattern(xw.dpy,
 					fontpattern);
 			if (!frc[frclen].font)
-				die("XftFontOpenPattern failed seeking fallback font: %s\n",
-					strerror(errno));
+				err(EXIT_FAILURE, "XftFontOpenPattern failed seeking fallback font");
 			frc[frclen].flags = frcflags;
 			frc[frclen].unicodep = rune;
 
@@ -1952,7 +1953,7 @@ run(void)
 		if (pselect(MAX(xfd, ttyfd)+1, &rfd, NULL, NULL, tv, NULL) < 0) {
 			if (errno == EINTR)
 				continue;
-			die("select failed: %s\n", strerror(errno));
+			err(EXIT_FAILURE, "pselect");
 		}
 		clock_gettime(CLOCK_MONOTONIC, &now);
 
