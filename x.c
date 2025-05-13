@@ -1491,6 +1491,7 @@ xdrawglyph(Glyph g, int x, int y)
 void
 xdrawcursor(int cx, int cy, Glyph g, int ox, int oy, Glyph og)
 {
+	int cwidth = win.cw * (g.mode & ATTR_WIDE ? 2 : 1);
 	Color drawcol;
 
 	/* remove the old cursor */
@@ -1548,7 +1549,7 @@ xdrawcursor(int cx, int cy, Glyph g, int ox, int oy, Glyph og)
 					borderpx + cx * win.cw,
 					borderpx + (cy + 1) * win.ch - \
 						cursorthickness,
-					win.cw, cursorthickness);
+					cwidth, cursorthickness);
 			break;
 		case 5: /* blinking bar */
 			if (IS_SET(MODE_BLINK))
@@ -1573,19 +1574,19 @@ xdrawcursor(int cx, int cy, Glyph g, int ox, int oy, Glyph og)
 		XftDrawRect(xw.draw, &drawcol,
 				borderpx + cx * win.cw,
 				borderpx + cy * win.ch,
-				win.cw - 1, 1);
+				cwidth - 1, 1);
 		XftDrawRect(xw.draw, &drawcol,
 				borderpx + cx * win.cw,
 				borderpx + cy * win.ch,
 				1, win.ch - 1);
 		XftDrawRect(xw.draw, &drawcol,
-				borderpx + (cx + 1) * win.cw - 1,
+				borderpx + cx * win.cw + cwidth - 1,
 				borderpx + cy * win.ch,
 				1, win.ch - 1);
 		XftDrawRect(xw.draw, &drawcol,
 				borderpx + cx * win.cw,
 				borderpx + (cy + 1) * win.ch - 1,
-				win.cw, 1);
+				cwidth, 1);
 	}
 }
 
