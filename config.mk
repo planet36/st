@@ -1,5 +1,5 @@
 # st version
-VERSION = 0.9.2
+VERSION = 0.9.3
 
 VERSION := $(shell git describe --tags --abbrev=0)-planet36
 
