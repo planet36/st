@@ -2000,7 +2000,7 @@ strhandle(void)
 
 	term.esc &= ~(ESC_STR_END|ESC_STR);
 	strparse();
-	par = (narg = strescseq.narg) ? strtol(strescseq.args[0], NULL, 0) : 0;
+	par = (narg = strescseq.narg) ? strtol(strescseq.args[0], NULL, 10) : 0;
 
 	switch (strescseq.type) {
 	case ']': /* OSC -- Operating System Command */
@@ -2054,7 +2054,7 @@ strhandle(void)
 			p = strescseq.args[2];
 			/* FALLTHROUGH */
 		case 104: /* color reset */
-			j = (narg > 1) ? strtol(strescseq.args[1], NULL, 0) : -1;
+			j = (narg > 1) ? strtol(strescseq.args[1], NULL, 10) : -1;
 
 			if (p && !strcmp(p, "?")) {
 				osc_color_response(j, 0, 1);
