@@ -1557,10 +1557,6 @@ tsetmode(int priv, int set, const int *args, int narg)
 				      and can be mistaken for other control
 				      codes. */
 				break;
-			case 7727: /* application escape mode */
-				break;
-			case 7786: /* mouse wheel - cursor key translation */
-				break;
 			default:
 				fprintf(stderr,
 					"erresc: unknown private set/reset mode %d\n",
