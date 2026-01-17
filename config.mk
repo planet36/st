@@ -20,7 +20,7 @@ CPPFLAGS += -DVERSION=\"$(VERSION)\" -D_XOPEN_SOURCE=600 $(INCS)
 
 CFLAGS = -std=c23
 CFLAGS += -pipe -Wall -Wextra -Wpedantic -Wfatal-errors
-CFLAGS += -O3 -flto=auto -march=native -fno-math-errno
+CFLAGS += -O3 -flto=auto -march=native
 CFLAGS += -Wno-shadow
 CFLAGS += -Wno-sign-compare
 CFLAGS += -Wno-switch-default
