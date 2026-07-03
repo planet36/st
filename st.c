@@ -705,19 +705,24 @@ execsh(char *cmd, char **args)
 void
 sigchld(int a)
 {
-	int stat;
+	int stat, olderrno;
 	pid_t p;
 
-	if ((p = waitpid(pid, &stat, WNOHANG)) < 0)
-		errx(EXIT_FAILURE, "waiting for pid %d failed", pid);
+	olderrno = errno;
+	do {
+		p = waitpid(pid, &stat, WNOHANG);
+	} while (p < 0 && errno == EINTR);
 
-	if (pid != p)
+	if (p < 0)
+		_exit(1);
+
+	if (pid != p) {
+		errno = olderrno;
 		return;
+	}
 
-	if (WIFEXITED(stat) && WEXITSTATUS(stat))
-		errx(EXIT_FAILURE, "child exited with status %d", WEXITSTATUS(stat));
-	else if (WIFSIGNALED(stat))
-		errx(EXIT_FAILURE, "child terminated due to signal %d", WTERMSIG(stat));
+	if ((WIFEXITED(stat) && WEXITSTATUS(stat)) || WIFSIGNALED(stat))
+		_exit(1);
 	_exit(0);
 }
 
