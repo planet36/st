@@ -94,20 +94,21 @@ char *termname = "st-256color";
  */
 unsigned int tabspaces = 8;
 
+// https://github.com/srcery-colors/srcery-terminal/blob/master/st/srcery_st.h
 /* Terminal colors (16 first used in escape sequence) */
 static const char *colorname[] = {
 	/* 8 normal colors */
-	"#1c1b19",
+	"#121110",
 	"#ef2f27",
 	"#519f50",
 	"#fbb829",
 	"#2c78bf",
 	"#e02c6d",
 	"#0aaeb3",
-	"#baa67f",
+	"#c5b088",
 
 	/* 8 bright colors */
-	"#918175",
+	"#917e6b",
 	"#f75341",
 	"#98bc37",
 	"#fed06e",
@@ -118,10 +119,10 @@ static const char *colorname[] = {
 
 	[255] = 0,
 
-	/* more colors can be added after 255 to use with defaultXX */
+	/* more colors can be added after 255 to use with DefaultXX */
 	"#fce8c3", /* foreground */
-	"#1c1b19", /* background */
-	"#fbb829", /* cursor */
+	"#121110", /* background */
+	"#fed06e", /* cursor */
 	"#cccccc",
 	"#555555",
 };
