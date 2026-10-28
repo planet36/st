@@ -824,6 +824,14 @@ ttyread(void)
 	case 0:
 		exit(0);
 	case -1:
+		/*
+		 * On Linux, read() fails with EIO once the shell closes the
+		 * pty, and that can happen before SIGCHLD arrives.  Wait for
+		 * sigchld() to exit with the shell's status.
+		 */
+		if (errno == EIO && pid > 0)
+			for (;;)
+				pause();
 		err(EXIT_FAILURE, "couldn't read from shell");
 	default:
 		buflen += ret;
