@@ -941,6 +941,12 @@ ttyresize(int tw, int th)
 void
 ttyhangup(void)
 {
+	/*
+	 * Keep sigchld() from turning the caller's exit(0) into
+	 * _exit(1) when the shell dies of the hangup.
+	 */
+	(void)signal(SIGCHLD, SIG_DFL);
+
 	/* Send SIGHUP to shell */
 	kill(pid, SIGHUP);
 }
